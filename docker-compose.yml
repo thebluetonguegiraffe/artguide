@@ -1,0 +1,11 @@
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    environment:
+      - QDRANT__LOG_LEVEL=WARNING
+    
+    restart: unless-stopped
