@@ -1,7 +1,9 @@
+import os
 import time
 from typing import Literal
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, HTTPException, Security
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
 
 from src.services.piper_speaker import PIPER_VOICE_MAPPER, PiperSpeaker
@@ -9,7 +11,22 @@ from src.services.qdrant_db import QdrantDB
 
 
 load_dotenv()
-app = FastAPI()
+
+security = HTTPBearer(
+    scheme_name="Bearer Token",
+    description="Ingresa tu token de API"
+)
+
+API_TOKEN = os.getenv("API_TOKEN")
+
+if not API_TOKEN:
+    raise ValueError("API_TOKEN must be set in environment variables")
+
+app = FastAPI(
+    title="ArtGuide API",
+    description="API para búsqueda de imágenes y síntesis de voz",
+    version="1.0.0"
+)
 
 db = QdrantDB()
 
@@ -18,6 +35,15 @@ speaker_models = {
     key: PiperSpeaker(*PIPER_VOICE_MAPPER[key])
     for key in PIPER_VOICE_MAPPER
 }
+
+
+def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> str:
+    if credentials.credentials != API_TOKEN:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid authentication token"
+        )
+    return credentials.credentials
 
 
 @app.get("/status")
@@ -30,7 +56,7 @@ class ImageSearchRequest(BaseModel):
 
 
 @app.post("/search")
-def search(request: ImageSearchRequest):
+def search(request: ImageSearchRequest, token: str = Depends(verify_token)):
     results = db.search(request.image_data)
     return results
 
@@ -42,7 +68,7 @@ class SynthesizeRequest(BaseModel):
 
 
 @app.post("/synthesize")
-def synthesize(request: SynthesizeRequest):
+def synthesize(request: SynthesizeRequest, token: str = Depends(verify_token)):
     start_time = time.time()
 
     audio_array, sample_rate = speaker_models[(request.language, request.speaker)].synthesize(
