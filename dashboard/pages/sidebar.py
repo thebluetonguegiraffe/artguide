@@ -4,7 +4,7 @@ from dashboard.translations import TEXT_TRANSLATIONS as tt
 
 def create_sidebar():
     if "language" not in st.session_state:
-        st.session_state.language = "ca"
+        st.session_state.language = "en"
 
     if "speaker" not in st.session_state:
         st.session_state.speaker = "female"

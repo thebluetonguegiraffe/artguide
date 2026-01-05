@@ -1,4 +1,4 @@
-run-api:
+deploy-api:
 	@echo "🧹 Cleaning old images..."
 	cd api && docker compose down --rmi all --volumes --remove-orphans || true
 	@echo "🔨 Building and starting API..."
@@ -7,12 +7,21 @@ run-api:
 	@echo "📚 API docs at http://localhost:7005/docs"
 	@echo "📋 View logs with: make logs"
 
-logs:
+logs-api:
 	cd api && docker compose logs -f
 
-run_dashboard:
+deploy-dashboard:
+	@echo "🧹 Cleaning old dashboard images..."
+	cd dashboard && docker compose down --rmi all --volumes --remove-orphans || true
+	@echo "🔨 Building and starting Dashboard..."
+	cd dashboard && docker compose up -d --build
+	@echo "✅ Dashboard is running at http://localhost:8502"
+	@echo "📋 View logs with: cd dashboard && docker compose logs -f"
+
+logs-dashboard:
+	cd dashboard && docker compose logs -f
+
+run-dashboard-dev:
 	@ export PYTHONPATH=.
 	streamlit run dashboard/main.py --server.port 8501
-
-run-tunnel:
-	cloudflared tunnel --config /etc/cloudflared/artguide-api-config.yml run d04eaa71-e825-41d6-9ac0-c9b2bb22058f
+	@echo "✅ Dashboard is running at http://localhost:8501"

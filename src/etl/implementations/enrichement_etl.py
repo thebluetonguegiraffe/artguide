@@ -2,6 +2,8 @@ import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, Generator, List
 
+from dotenv import load_dotenv
+
 from src.etl.base_paintings_etl import BasePaintingsETL
 from src.retrievers.wikiart_retriever import WikiArtRetriever
 from src.services.qdrant_db import QdrantDB
@@ -57,10 +59,10 @@ class WikiArtETL(BasePaintingsETL):
     def load(self, batch: List[Dict]) -> None:
         """Load a single batch"""
         logger.info(f"Loading batch of {len(batch)} paintings to DB...")
-        self.db.ingest_paintings(batch)
-        pass
+        self.db.update_payload_by_id(batch)
 
 
 if __name__ == "__main__":
+    load_dotenv()
     etl = WikiArtETL(batch_size=100, workers=4)
     etl.run()
