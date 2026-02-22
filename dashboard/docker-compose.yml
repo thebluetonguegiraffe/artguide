@@ -5,7 +5,7 @@ services:
       dockerfile: dashboard/Dockerfile
     container_name: artguide-dashboard
     ports:
-      - "8502:8502"
+      - "127.0.0.1:8502:8502"
     volumes:
       - ../dashboard:/app/dashboard
     restart: always
