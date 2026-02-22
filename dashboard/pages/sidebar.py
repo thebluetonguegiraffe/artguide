@@ -74,7 +74,7 @@ def create_sidebar():
         st.markdown(
             f"""
             <div style="display: flex; align-items: center; gap: 10px;">
-                <a href="https://github.com/tu-usuario/tu-repo" target="_blank">
+                <a href="https://github.com/annafalpi27/artguide/tree/main" target="_blank">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" width="24"> 
                 </a>
                 <span>{tt[st.session_state.language]["project_info"]}</span>
