@@ -4,7 +4,7 @@ services:
       context: ..
       dockerfile: api/Dockerfile
     ports:
-      - "7005:7005"
+      - "127.0.0.1:7005:7005"
     env_file:
       - ../.env
     environment:
