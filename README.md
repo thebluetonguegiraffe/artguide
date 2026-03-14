@@ -1,8 +1,8 @@
 # 🎨 ArtGuide: The AI-Powered Museum Guide
-ArtGuide is an AI-driven solution that recognizes artworks instantly and produces smooth, natural audio descriptions to enhance your experience in museums and exhibitions.
+[ArtGuide](https://artguide.thebluetonguegiraffe.online) is a multimodal AI pipeline that identifies artworks from photos and delivers spoken audio descriptions in real time. Point your camera at a painting, and ArtGuide will recognize it, generate contextual narration, and play it back as high-quality speech — in English, Spanish, or Catalan.
 
 ## 💻 Technical Overview
-**ArtGuide** is a Python-based application engineered for high performance and accessibility. The core of the system relies on the **ArtGuide AI Agent** (built using the **LangGraph** framework) and a **QdrantDB** vector database, populated using a **Multiprocessing ETL**. This integrated architecture allows the system to efficiently **store and retrieve art embeddings**, **make dynamic decisions** based on established guidelines, **generate extra data** such as artwork detailed descriptions, and finally, **synthesize the complete guide narration** for delivery.
+Built in **Python**, the system centers on a **LangGraph** agent orchestrating a **Qdrant** vector database populated via a custom **multiprocessing ETL** pipeline. This architecture handles the full pipeline end-to-end: retrieving artwork matches through **CLIP embeddings**, routing decisions based on confidence thresholds, generating enriched descriptions via **GPT-4o**, and synthesizing the final narration through a self-hosted **Piper TTS model**.
 
 The system integrates three distinct AI models to power its features:
 * **CLIP** for image and text understanding.
@@ -11,7 +11,7 @@ The system integrates three distinct AI models to power its features:
 
 Crucially, the **CLIP** and **Piper TTS** models are **self-hosted** on custom infrastructure and distributed through the project's **API**, ensuring low-latency multimedia services.
 
-The entire user interface is built using the **Streamlit** framework for rapid development and is hosted for public access at <a href="https://artguide-dashboard.streamlit.app/" target="_blank">https://artguide-dashboard.streamlit.app/</a>.
+The entire user interface is built using the **Streamlit** framework for rapid development and is hosted for public access.
 
 <p align="center">
 <img src="img/README/ui.png" width="500">
