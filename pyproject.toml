@@ -20,5 +20,10 @@ dependencies = [
     "streamlit>=1.51.0",
     "uvicorn>=0.38.0",
 ]
+
+[project.optional-dependencies]
+scripts = [
+    "psutil>=7.2.2",
+]
 [tool.black]
 line-length = 100

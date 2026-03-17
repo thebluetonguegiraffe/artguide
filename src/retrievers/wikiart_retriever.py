@@ -66,8 +66,8 @@ class WikiArtRetriever:
             painting["url"] = None
             return painting
 
-        wiki_url = self.wikipedia_retriever.search_wikipedia(title, artist)
-        painting["url"] = wiki_url
+        # wiki_url = self.wikipedia_retriever.search_wikipedia(title, artist)
+        # painting["url"] = wiki_url
 
         return painting
 

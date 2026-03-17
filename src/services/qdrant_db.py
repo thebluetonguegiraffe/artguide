@@ -87,7 +87,7 @@ class QdrantDB:
                     {
                         "title": hit.payload["title"],
                         "artist": hit.payload["artist"],
-                        "image_url": hit.payload["image_url"],
+                        "image_url": hit.payload.get("image_url"),
                         "url": hit.payload["url"],
                         "score": hit.score,
                     }

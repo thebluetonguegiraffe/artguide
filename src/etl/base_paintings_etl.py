@@ -33,9 +33,9 @@ class BasePaintingsETL(ABC):
         pass
 
     # ========== WORKERS ==========
-    def run_transform_worker(self):
+    def run_transform_thread(self):
         """
-        Worker que:
+        Thread that:
         1. Retrieves batches from transform_queue
         2. Transforms them
         3. Places them in load_queue
@@ -56,9 +56,9 @@ class BasePaintingsETL(ABC):
 
         logger.info("Transform worker stopped")
 
-    def run_load_worker(self):
+    def run_load_thread(self):
         """
-        Worker that:
+        Thread that:
         1. Retrieves batches from load_queue
         2. Loads them into the DB
         """
@@ -81,11 +81,11 @@ class BasePaintingsETL(ABC):
 
         # Create threads that execute worker functions
         transform_thread = threading.Thread(
-            target=self.run_transform_worker, name="TransformWorker"
+            target=self.run_transform_thread, name="TransformWorker"
         )
-        load_thread = threading.Thread(target=self.run_load_worker, name="LoadWorker")
+        load_thread = threading.Thread(target=self.run_load_thread, name="LoadWorker")
 
-        # Start the workers
+        # Start the threads
         transform_thread.start()
         load_thread.start()
 

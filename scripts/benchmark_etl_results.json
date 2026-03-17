@@ -1,0 +1,37 @@
+[
+  {
+    "mode": "sequential",
+    "workers": 1,
+    "total_paintings": 100,
+    "elapsed_seconds": 30.192,
+    "throughput_per_second": 3.31
+  },
+  {
+    "mode": "threaded",
+    "workers": 1,
+    "total_paintings": 100,
+    "elapsed_seconds":13.608,
+    "throughput_per_second": 7.35
+  },
+  {
+    "mode": "threaded",
+    "workers": 2,
+    "total_paintings": 100,
+    "elapsed_seconds": 15.589,
+    "throughput_per_second": 6.41
+  },
+  {
+    "mode": "threaded",
+    "workers": 4,
+    "total_paintings": 100,
+    "elapsed_seconds": 9.094,
+    "throughput_per_second": 11.0
+  },
+  {
+    "mode": "threaded",
+    "workers": 8,
+    "total_paintings": 100,
+    "elapsed_seconds": 9.125,
+    "throughput_per_second": 10.96
+  }
+]
