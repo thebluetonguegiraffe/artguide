@@ -9,7 +9,7 @@ from PIL import Image
 
 from dotenv import load_dotenv
 from qdrant_client import QdrantClient
-from qdrant_client.models import PointStruct
+from qdrant_client.models import PointStruct, PointIdsList
 from sentence_transformers import SentenceTransformer
 
 from config import qdrant_config
@@ -58,6 +58,18 @@ class QdrantDB:
                 )
             )
         self.client.upsert(collection_name=self.collection_name, points=points)
+
+        logger.info(f"Qdrant updated with {len(paintings)} embeddings")
+
+    def update_payload_by_id(self, paintings: List[Dict]):
+        """Update Qdrant points using its id."""
+        for painting in paintings:
+            self.client.set_payload(
+                collection_name=self.collection_name,
+                payload=painting['payload'],
+                points=PointIdsList(points=painting['_id']),
+                wait=True
+            )
 
         logger.info(f"Qdrant updated with {len(paintings)} embeddings")
 
