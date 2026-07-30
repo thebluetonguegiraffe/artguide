@@ -23,6 +23,11 @@ CAM_DESKTOP = "ag-cam-d"
 # breakpoint, so it doubles as the auto-start visibility check.
 MOBILE_ROOT_ID = "ag-mobile-root"
 
+# Both roots are addressable by id so global.css can keep the touch layout on a
+# phone held sideways -- see the landscape override there for why the width
+# breakpoint alone gets that case wrong.
+DESKTOP_ROOT_ID = "ag-desktop-root"
+
 _STOP_ALL_CAMERAS = [
     rx.call_script(scripts.stop_camera_script(CAM_MOBILE)),
     rx.call_script(scripts.stop_camera_script(CAM_DESKTOP)),
@@ -161,6 +166,7 @@ def _m_header_bar(dark: bool) -> rx.Component:
             width="230px",
         ),
         position="relative", padding_top="46px", z_index="3",
+        class_name="ag-m-head",
     )
 
 
@@ -210,6 +216,7 @@ def _m_viewfinder() -> rx.Component:
                 position="absolute", inset="0",
             ),
             position="absolute", top="130px", left="40px", right="40px", bottom="170px",
+            class_name="ag-m-vf",
         ),
         rx.vstack(
             rx.center(
@@ -238,6 +245,7 @@ def _m_viewfinder() -> rx.Component:
             ),
             spacing="4", align="center",
             position="absolute", bottom="46px", left="0", right="0",
+            class_name="ag-m-controls",
         ),
     )
 
@@ -254,6 +262,7 @@ def _m_analysing() -> rx.Component:
         rx.box(
             _brackets(s.RUST, s.RUST, pulse=True),
             position="absolute", top="130px", left="40px", right="40px", bottom="170px",
+            class_name="ag-m-vf",
         ),
         rx.vstack(
             rx.text(
@@ -333,6 +342,7 @@ def _mobile() -> rx.Component:
             rx.box(
                 _m_header_bar(dark=True),
                 rx.match(State.stage, ("analyzing", _m_analysing()), _m_viewfinder()),
+                class_name="ag-m-frame",
                 width="100%", max_width=FRAME_W, min_height="100dvh",
                 margin="0 auto", position="relative",
                 display="flex", flex_direction="column",
@@ -344,6 +354,7 @@ def _mobile() -> rx.Component:
             rx.box(
                 _m_header_bar(dark=False),
                 rx.match(State.stage, ("error", _m_error()), _m_result()),
+                class_name="ag-m-frame",
                 width="100%", max_width=FRAME_W, min_height="100dvh",
                 margin="0 auto", display="flex", flex_direction="column",
             ),
@@ -799,12 +810,14 @@ def _desktop() -> rx.Component:
         height="100dvh",
         overflow="hidden",
         background_color=s.BONE,
+        id=DESKTOP_ROOT_ID,
     )
 
 
 # =========================================================================== #
 def app_page() -> rx.Component:
     return rx.fragment(
+        rx.script(scripts.FORCE_HTTPS),
         player_script(),
         _mobile(),
         _desktop(),

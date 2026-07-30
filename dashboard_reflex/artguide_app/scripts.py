@@ -6,6 +6,23 @@ otherwise collide on a shared id.
 """
 
 
+# getUserMedia only exists in a secure context, so on a plain http:// page
+# `navigator.mediaDevices` is undefined and the camera can never start -- the
+# viewfinder just reports NotSupported. The origin answers on both http and
+# https (Cloudflare does not redirect), and typing the bare domain on a phone
+# lands on http, which is why this only ever bit mobile visitors. Redirect
+# before anything else runs. localhost is itself a secure context and is
+# excluded so `reflex run` keeps working over http.
+FORCE_HTTPS = """
+(function () {
+  if (location.protocol !== 'http:') return;
+  const h = location.hostname;
+  if (h === 'localhost' || h === '127.0.0.1' || h === '::1' || h === '0.0.0.0') return;
+  location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+})();
+"""
+
+
 def start_camera_script(
     video_id: str, auto: bool = False, visible_check_id: str | None = None
 ) -> str:
