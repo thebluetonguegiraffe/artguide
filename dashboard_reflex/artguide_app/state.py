@@ -298,7 +298,13 @@ class State(rx.State):
 
     @rx.event
     def camera_started(self, reason: str):
-        """Callback from getUserMedia: "" means the stream is live."""
+        """Callback from getUserMedia: "" means the stream is live.
+
+        "Skip" comes from an auto-start attempt on a hidden (desktop)
+        viewfinder — ignore it rather than surfacing a spurious error.
+        """
+        if reason == "Skip":
+            return
         self.camera_on = reason == ""
         self.camera_error_kind = reason
 

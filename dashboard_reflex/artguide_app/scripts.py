@@ -6,7 +6,9 @@ otherwise collide on a shared id.
 """
 
 
-def start_camera_script(video_id: str) -> str:
+def start_camera_script(
+    video_id: str, auto: bool = False, visible_check_id: str | None = None
+) -> str:
     """Start the rear-facing camera into the given <video id>.
 
     Resolves "" on success, otherwise the DOMException name (e.g.
@@ -14,11 +16,27 @@ def start_camera_script(video_id: str) -> str:
     Note the browser only prompts once per origin: after a denial getUserMedia
     rejects immediately, which is why the refusal message has to tell the user
     to re-enable it from the address bar themselves.
+
+    `auto=True` is for triggering the camera without a click (e.g. on page
+    mount). The mobile and desktop viewfinders share the same DOM regardless
+    of viewport (CSS just hides one), so an unconditional auto-start would
+    also prompt desktop visitors for camera access too. Check `visible_check_id`
+    (a breakpoint-controlled ancestor) rather than the video element itself:
+    the video's own wrapper is hidden via `camera_on`-driven CSS, which is
+    exactly false while we're trying to auto-start it, so it can't be used as
+    the visibility signal. Resolves 'Skip' when hidden, which the caller must
+    treat as a no-op.
     """
+    check_id = visible_check_id or video_id
+    skip_if_hidden = f"""
+  const vis = document.getElementById('{check_id}');
+  if (!vis || vis.offsetParent === null) return 'Skip';
+""" if auto else ""
     return f"""
 (async () => {{
   const v = document.getElementById('{video_id}');
   if (!v) return 'NoElement';
+  {skip_if_hidden}
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {{
     return 'NotSupported';
   }}

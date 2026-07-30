@@ -19,10 +19,19 @@ ART_STRIPES = "repeating-linear-gradient(135deg,#f7f3ee 0 12px,#efe6dc 12px 24px
 CAM_MOBILE = "ag-cam-m"
 CAM_DESKTOP = "ag-cam-d"
 
+# Root of the mobile layout: only actually visible below the desktop CSS
+# breakpoint, so it doubles as the auto-start visibility check.
+MOBILE_ROOT_ID = "ag-mobile-root"
+
 _STOP_ALL_CAMERAS = [
     rx.call_script(scripts.stop_camera_script(CAM_MOBILE)),
     rx.call_script(scripts.stop_camera_script(CAM_DESKTOP)),
 ]
+
+_AUTO_START_MOBILE_CAMERA = rx.call_script(
+    scripts.start_camera_script(CAM_MOBILE, auto=True, visible_check_id=MOBILE_ROOT_ID),
+    callback=State.camera_started,
+)
 
 
 def _upload(*children, upload_id: str, **props) -> rx.Component:
@@ -120,7 +129,7 @@ def _new_search() -> rx.Component:
             State.t["new_search"], font_family=s.SANS, font_size="13px",
             font_weight="500", color=s.PAPER,
         ),
-        on_click=[*_STOP_ALL_CAMERAS, State.restart],
+        on_click=[*_STOP_ALL_CAMERAS, State.restart, _AUTO_START_MOBILE_CAMERA],
         background_color=s.INK, border_radius="9px", padding="14px",
         width="100%", cursor="pointer", margin_top="18px",
         _hover={"background_color": s.RUST},
@@ -344,6 +353,8 @@ def _mobile() -> rx.Component:
         ),
         display=["block", "block", "none"],
         width="100%",
+        id=MOBILE_ROOT_ID,
+        on_mount=_AUTO_START_MOBILE_CAMERA,
     )
 
 
