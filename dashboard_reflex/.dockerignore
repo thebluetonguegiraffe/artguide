@@ -1,0 +1,10 @@
+# do not copy unnecessary / regenerable files
+.web/
+.states/
+__pycache__/
+*.pyc
+*.db
+.venv/
+.git/
+*.log
+.env
