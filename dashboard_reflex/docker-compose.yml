@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: ..                # Go up to project root (artguide/)
+      dockerfile: dashboard_reflex/Dockerfile
+      args:
+        DASHBOARD_PUBLIC_URL: ${DASHBOARD_PUBLIC_URL:-http://localhost:8502}
+    container_name: artguide-dashboard
+    ports:
+      - "127.0.0.1:8502:8502"
+    restart: always
