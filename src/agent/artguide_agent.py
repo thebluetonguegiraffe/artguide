@@ -32,10 +32,10 @@ class ArtGuide:
     def __init__(self, config: Dict):
         # LLM initialization
         self.llm = init_chat_model(
-            model="openai/gpt-4o",
+            model="openai/gpt-oss-120b",
             model_provider="openai",
-            api_key=os.environ["GITHUB_TOKEN"],
-            base_url="https://models.github.ai/inference",
+            api_key=os.environ["GROQ_API_KEY"],
+            base_url="https://api.groq.com/openai/v1",
         )
         # Configuration
         self.language = config["language"]
