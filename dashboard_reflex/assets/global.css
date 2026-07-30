@@ -1,0 +1,181 @@
+@keyframes ag-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .45; }
+}
+
+@keyframes ag-float-a {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-18px, 22px); }
+}
+
+@keyframes ag-float-b {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -16px); }
+}
+
+html { scroll-behavior: smooth; }
+
+/* Anchored sections clear the sticky nav */
+[id] { scroll-margin-top: 96px; }
+
+#ag-play, #ag-bars { user-select: none; }
+
+/* ---------------------------------------------------------------- */
+/* Scroll reveal system                                              */
+/* ---------------------------------------------------------------- */
+[data-r] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .95s cubic-bezier(.2, .7, .2, 1),
+              transform .95s cubic-bezier(.2, .7, .2, 1);
+}
+[data-r].in { opacity: 1; transform: none; }
+
+[data-r-stagger] > * {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .8s cubic-bezier(.2, .7, .2, 1),
+              transform .8s cubic-bezier(.2, .7, .2, 1);
+}
+[data-r-stagger].in > * { opacity: 1; transform: none; }
+[data-r-stagger].in > *:nth-child(1) { transition-delay: .05s; }
+[data-r-stagger].in > *:nth-child(2) { transition-delay: .14s; }
+[data-r-stagger].in > *:nth-child(3) { transition-delay: .23s; }
+[data-r-stagger].in > *:nth-child(4) { transition-delay: .32s; }
+[data-r-stagger].in > *:nth-child(5) { transition-delay: .41s; }
+[data-r-stagger].in > *:nth-child(6) { transition-delay: .5s; }
+
+/* Clip-path reveal for imagery */
+[data-clip] {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.4s cubic-bezier(.7, 0, .2, 1);
+}
+[data-clip].in { clip-path: inset(0 0 0% 0); }
+
+/* Line-mask heading reveal */
+.reveal-lines { display: block; }
+.reveal-lines .ln { display: block; overflow: hidden; }
+.reveal-lines .ln > span {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 1s cubic-bezier(.2, .75, .2, 1);
+}
+.reveal-lines.in .ln > span { transform: none; }
+.reveal-lines.in .ln:nth-child(2) > span { transition-delay: .12s; }
+.reveal-lines.in .ln:nth-child(3) > span { transition-delay: .24s; }
+.reveal-lines.in .ln:nth-child(4) > span { transition-delay: .36s; }
+
+/* Underline draw on section labels */
+.lbl-draw { position: relative; padding-bottom: 6px; }
+.lbl-draw:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform .9s cubic-bezier(.2, .7, .2, 1) .1s;
+}
+.in .lbl-draw:after, .lbl-draw.in:after { transform: scaleX(1); }
+
+.prlx { will-change: transform; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-r], [data-r-stagger] > *, [data-clip],
+  .reveal-lines .ln > span, .lbl-draw:after {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    clip-path: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------- */
+/* App animations                                                    */
+/* ---------------------------------------------------------------- */
+@keyframes ag-wave {
+  0%, 100% { transform: scaleY(.4); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes ag-corner-pulse {
+  0%, 100% { transform: scale(1); opacity: .9; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes ag-ring-expand {
+  0% { transform: translate(-50%, -50%) scale(.6); opacity: .9; }
+  100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+}
+
+@keyframes ag-phrase {
+  0%, 18% { opacity: 0; transform: translateY(14px); }
+  22%, 45% { opacity: 1; transform: none; }
+  55%, 100% { opacity: 0; transform: translateY(-14px); }
+}
+
+/* Waveform bars only animate while the narration is playing */
+#ag-bars > span { transform-origin: center; }
+#ag-bars.playing > span {
+  animation-name: ag-wave;
+  animation-duration: 1.1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #ag-bars.playing > span,
+  [data-phrase] { animation: none !important; }
+}
+
+/* ---------------------------------------------------------------- */
+/* Stage transitions                                                 */
+/* ---------------------------------------------------------------- */
+/* Mobile: the result screen rises from the bottom. */
+@keyframes ag-slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* Desktop: the result columns sweep in from the left. */
+@keyframes ag-slide-in-left {
+  from { transform: translateX(-40px); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+@keyframes ag-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Narration player: once the audio is ready it drops down into place. */
+@keyframes ag-slide-down {
+  from { transform: translateY(-14px); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+.ag-enter-up {
+  animation: ag-slide-up .45s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.ag-enter-left {
+  animation: ag-slide-in-left .5s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+/* Right-hand column trails the left one slightly. */
+.ag-enter-left-delayed {
+  animation: ag-slide-in-left .5s cubic-bezier(.2, .8, .2, 1) .08s both;
+}
+
+.ag-enter-down {
+  animation: ag-slide-down .4s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ag-enter-up, .ag-enter-left, .ag-enter-left-delayed, .ag-enter-down {
+    animation: ag-fade-in .01s both;
+  }
+}
