@@ -1,6 +1,6 @@
 import base64
 import logging
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 
 from pydantic import BaseModel
 
@@ -14,17 +14,19 @@ logger = logging.getLogger(__name__)
 
 
 class ChatArtworkInfo(BaseModel):
-    title: Optional[str]
-    artist: Optional[str]
-    year: Optional[str]
-    museum: Optional[str]
-    description: Optional[str]
+    # Every field defaults to None: the vision model is asked for free-form JSON and
+    # legitimately omits keys it cannot determine, which would otherwise fail parsing.
+    title: Optional[str] = None
+    artist: Optional[str] = None
+    year: Optional[Union[str, int]] = None  # models return the year as a bare number
+    museum: Optional[str] = None
+    description: Optional[str] = None
 
     def to_dict(self):
         return {
             "title": self.title,
             "artist": self.artist,
-            "year": self.year,
+            "year": str(self.year) if self.year is not None else None,
             "museum": self.museum,
             "description": self.description.replace("*", "") if self.description else None,
         }
@@ -38,14 +40,20 @@ class LLMTools:
         "en": "english"
     }
 
-    def __init__(self, llm):
+    def __init__(self, llm, vision_llm=None):
         self.llm = llm
+        self.vision_llm = vision_llm or llm
         self.prompts = Prompts
 
     def identify_artwork(self, image_path: str, language: str, n_words: int) -> Dict:
         """Identifies painting using LLM"""
 
-        llm_artwork_info = self.llm.with_structured_output(ChatArtworkInfo)
+        # `json_mode` rather than the default `json_schema`: the vision models available
+        # on Groq support neither json_schema nor reliable tool calling, so the schema is
+        # spelled out in the prompt and validated by ChatArtworkInfo on the way out.
+        llm_artwork_info = self.vision_llm.with_structured_output(
+            ChatArtworkInfo, method="json_mode"
+        )
         with open(image_path, "rb") as img:
             logger.info(f"Deep analysis on image: {image_path}")
             prompt = self.prompts.ART_IDENTIFICATION_PROMPT.format(

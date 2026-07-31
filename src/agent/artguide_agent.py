@@ -29,10 +29,21 @@ class ArtGuide:
 
     DURATION_TO_NUM_WORDS = {"short": 100, "medium": 150, "long": 200}
 
+    TEXT_MODEL = "openai/gpt-oss-120b"
+    VISION_MODEL = "qwen/qwen3.6-27b"
+
     def __init__(self, config: Dict):
-        # LLM initialization
+        # LLM initialization. Two models because the text model is blind: gpt-oss-120b
+        # rejects multimodal messages outright ("content must be a string"), so image
+        # identification goes to a vision-capable model instead.
         self.llm = init_chat_model(
-            model="openai/gpt-oss-120b",
+            model=self.TEXT_MODEL,
+            model_provider="openai",
+            api_key=os.environ["GROQ_API_KEY"],
+            base_url="https://api.groq.com/openai/v1",
+        )
+        self.vision_llm = init_chat_model(
+            model=self.VISION_MODEL,
             model_provider="openai",
             api_key=os.environ["GROQ_API_KEY"],
             base_url="https://api.groq.com/openai/v1",
@@ -44,7 +55,7 @@ class ArtGuide:
 
         # Tools
         api_url = api_config['url']
-        self.llm_tools = LLMTools(self.llm)
+        self.llm_tools = LLMTools(self.llm, self.vision_llm)
         self.api_tools = APITools(api_url)
         self.utils = BaseTools()
 
