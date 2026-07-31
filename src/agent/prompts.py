@@ -29,6 +29,10 @@ class Prompts:
         "   6. Specify the museum where the painting is exposed "
         "   7. Specify the year the painting was created."
         "   8. Specify the artist"
+        "\n\nRespond with a single JSON object with exactly these keys: "
+        '"title", "artist", "year", "museum", "description". '
+        "Use null for any value you cannot determine, including \"title\" when the image "
+        "is not a painting."
     )
 
     DESCRIPTION_GENERATION = (
