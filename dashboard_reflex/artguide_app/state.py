@@ -3,6 +3,7 @@ import asyncio
 import base64
 import binascii
 import io
+import logging
 import os
 import sys
 import tempfile
@@ -39,6 +40,14 @@ except Exception:  # pragma: no cover - dotenv optional
     pass
 
 LANGUAGES = ["es", "ca", "en"]
+
+# The agent's tools log through `logging`, which reaches stderr and therefore the
+# container logs. Anything printed to stdout does not: it sits in Python's block
+# buffer until the process exits, so pipeline failures were invisible in practice.
+logging.basicConfig(  # no-op if the root logger is already configured
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+)
+logger = logging.getLogger("artguide.app")
 
 # Scalar (plain string) landing keys exposed as one dict var.
 _SCALAR_KEYS = [
@@ -486,6 +495,13 @@ class State(rx.State):
                             self.audio_generating = True
 
         except Exception as exc:
+            # exc_info so the traceback names the failing node, and the stage flags so
+            # the log line says how far the pipeline got before dying.
+            logger.error(
+                f"Pipeline failed (title={self.title!r}, "
+                f"has_description={bool(self.description)}): {exc}",
+                exc_info=True,
+            )
             async with self:
                 if self.description:
                     # Identification and description both succeeded — only the
@@ -500,7 +516,6 @@ class State(rx.State):
                     # Never got a usable identification at all.
                     self.stage = "error"
                     self.audio_generating = False
-            print(f"[ArtGuide] pipeline error: {exc}")
         finally:
             if tmp_path and os.path.exists(tmp_path):
                 os.remove(tmp_path)

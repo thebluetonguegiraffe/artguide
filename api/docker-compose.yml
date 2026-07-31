@@ -13,6 +13,13 @@ services:
       - TMPDIR=/artguide/tmp 
     restart: unless-stopped
     container_name: artguide-api
+    # Keep a bounded history instead of docker's unbounded default, so logs from
+    # before a crash are still there when you go looking.
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
     volumes:
       # to use repo models and not copy them into the image
       - ../tts/models:/artguide/tts/models:ro

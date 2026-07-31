@@ -9,3 +9,10 @@ services:
     ports:
       - "127.0.0.1:8502:8502"
     restart: always
+    # Keep a bounded history instead of docker's unbounded default, so logs from
+    # before a crash are still there when you go looking.
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"

@@ -21,6 +21,9 @@ COPY . .
 
 # Add the project root to PYTHONPATH so imports work correctly
 ENV PYTHONPATH=/artguide
+# Without this, stdout is block-buffered (no TTY) and log lines never reach
+# `docker logs` until the process exits.
+ENV PYTHONUNBUFFERED=1
 
 # create dir for mount volume
 RUN mkdir -p /artguide/tts/models

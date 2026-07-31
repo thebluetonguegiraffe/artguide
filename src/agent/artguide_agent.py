@@ -25,7 +25,7 @@ class State(TypedDict):
 
 
 class ArtGuide:
-    SCORE_THRESHOLD = 0.35
+    SCORE_THRESHOLD = 0.30
 
     DURATION_TO_NUM_WORDS = {"short": 100, "medium": 150, "long": 200}
 
@@ -47,6 +47,12 @@ class ArtGuide:
             model_provider="openai",
             api_key=os.environ["GROQ_API_KEY"],
             base_url="https://api.groq.com/openai/v1",
+            # Thinking off. Qwen spends its budget reasoning before emitting the JSON,
+            # and when the answer lands past that budget the provider returns an empty
+            # generation -- a 400 `json_validate_failed` with failed_generation: ''.
+            # It also cuts the call from ~830 completion tokens to ~160, which matters
+            # against the 8000 TPM free-tier ceiling.
+            reasoning_effort="none",
         )
         # Configuration
         self.language = config["language"]
@@ -186,6 +192,6 @@ class ArtGuide:
 if __name__ == "__main__":
     load_dotenv()
     agent = ArtGuide({"language": "en", "speaker": "female", "duration": "short"})
-    image_path = "/home/afalceto/artguide/img/matrimoni_arnolfini.jpg"
-    # image_path = "/home/ubuntu/artguide/img/matrimoni_arnolfini.jpg"
+    # image_path = "/home/afalceto/artguide/img/matrimoni_arnolfini.jpg"
+    image_path = "/home/ubuntu/artguide/img/matrimoni_arnolfini.jpg"
     agent.run(image_path=image_path)

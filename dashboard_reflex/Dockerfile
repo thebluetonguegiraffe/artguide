@@ -26,6 +26,9 @@ COPY dashboard_reflex/assets ./dashboard_reflex/assets
 COPY dashboard_reflex/artguide_app ./dashboard_reflex/artguide_app
 
 ENV PYTHONPATH=/dashboard_reflex
+# Without this, stdout is block-buffered (no TTY) and log lines never reach
+# `docker logs` until the process exits.
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /dashboard_reflex/dashboard_reflex
 

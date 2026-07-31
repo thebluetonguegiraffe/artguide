@@ -14,3 +14,5 @@ wheels/
 tts/models
 
 .claude/
+# Archived container logs (see Makefile deploy targets)
+logs/
