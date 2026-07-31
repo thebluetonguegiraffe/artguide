@@ -9,7 +9,12 @@ from artguide_app.components.appbits import (
 from artguide_app import scripts, styles as s
 
 FRAME_W = "440px"
-ACCEPT = {"image/png": [".png"], "image/jpeg": [".jpg", ".jpeg"]}
+# react-dropzone enforces this in the browser, before anything is sent. Listing
+# only png/jpeg meant a phone picker handing over HEIC (iOS) or webp (Android)
+# had the file rejected client-side with no event, no request and no server log
+# -- the upload button simply did nothing. Everything is normalised to JPEG in
+# State._to_jpeg anyway, so accept any image and sort out the format there.
+ACCEPT = {"image/*": [".png", ".jpg", ".jpeg", ".heic", ".heif", ".webp", ".gif", ".bmp"]}
 STRIPES = "repeating-linear-gradient(135deg,#faf8f4 0 10px,#f2efe9 10px 20px)"
 ART_STRIPES = "repeating-linear-gradient(135deg,#f7f3ee 0 12px,#efe6dc 12px 24px)"
 
@@ -53,7 +58,12 @@ def _upload(*children, upload_id: str, **props) -> rx.Component:
         accept=ACCEPT,
         max_files=1,
         multiple=False,
-        on_drop=State.handle_upload(rx.upload_files(upload_id=upload_id)),
+        on_drop=State.handle_upload(
+            rx.upload_files(
+                upload_id=upload_id,
+                on_upload_progress=State.on_upload_progress,
+            )
+        ),
         **defaults,
     )
 
@@ -234,14 +244,29 @@ def _m_viewfinder() -> rx.Component:
                 _hover={"transform": "scale(1.04)"},
                 transition="transform .12s ease, opacity .2s ease",
             ),
-            _upload(
-                rx.text(
-                    State.t["upload_photo"], font_family=s.SANS, font_size="12px",
-                    color=s.ON_DARK_MUTED,
-                    border_bottom=f"1px solid {s.ON_DARK_MUTED}", padding_bottom="2px",
-                    _hover={"color": s.ON_DARK},
+            # A phone photo is a multi-megabyte POST: without this the label
+            # just sat there and the upload read as a button that did nothing.
+            # The percentage stays a bare number so it needs no translation.
+            rx.cond(
+                State.uploading,
+                rx.hstack(
+                    rx.spinner(size="1", color=s.ON_DARK_MUTED),
+                    rx.text(
+                        State.upload_pct.to_string() + "%",
+                        font_family=s.SANS, font_size="12px", color=s.ON_DARK_MUTED,
+                    ),
+                    spacing="2", align="center", height="19px",
                 ),
-                upload_id="m_upload", width="auto",
+                _upload(
+                    rx.text(
+                        State.t["upload_photo"], font_family=s.SANS, font_size="12px",
+                        color=s.ON_DARK_MUTED,
+                        border_bottom=f"1px solid {s.ON_DARK_MUTED}",
+                        padding_bottom="2px",
+                        _hover={"color": s.ON_DARK},
+                    ),
+                    upload_id="m_upload", width="auto",
+                ),
             ),
             spacing="4", align="center",
             position="absolute", bottom="46px", left="0", right="0",

@@ -36,6 +36,9 @@ app = rx.App(
             href="/android-chrome-512x512.png",
         ),
         rx.el.link(rel="manifest", href="/site.webmanifest"),
+        # Linked straight at the asset rather than added to `stylesheets`, so
+        # the build never gets to minify its media query. See landscape.css.
+        rx.el.link(rel="stylesheet", href="/landscape.css"),
         rx.el.link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin=""),
     ],
 )
