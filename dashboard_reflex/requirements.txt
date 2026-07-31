@@ -1,2 +1,4 @@
 
 reflex==0.9.7
+# Lets Pillow open the HEIC that iPhones upload; see State._to_jpeg.
+pillow-heif==1.1.0

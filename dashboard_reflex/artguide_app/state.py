@@ -10,7 +10,17 @@ from pathlib import Path
 
 import numpy as np
 import reflex as rx
+from PIL import Image, ImageOps
 from scipy.io import wavfile
+
+# iPhones hand over HEIC, which Pillow cannot open on its own. Optional so a
+# missing wheel degrades to "HEIC uploads fail" rather than breaking startup.
+try:
+    from pillow_heif import register_heif_opener
+
+    register_heif_opener()
+except ImportError:
+    pass
 
 from artguide_app.translations import TEXT_TRANSLATIONS as tt
 from artguide_app.landing_texts import LANDING, WAITING_PHRASES
@@ -82,6 +92,12 @@ class State(rx.State):
     stage: str = "idle"
     camera_on: bool = False
     camera_error_kind: str = ""   # "" = fine; else the DOMException name
+
+    # Upload runs before `stage` leaves "idle", so without these the UI sat on
+    # the viewfinder with no sign anything was happening -- on a phone that is
+    # several seconds of a multi-megabyte POST looking like a dead button.
+    uploading: bool = False
+    upload_pct: int = 0
 
     shot: str = ""            # data URI of the captured/uploaded photo
     title: str = ""
@@ -272,6 +288,8 @@ class State(rx.State):
     # ---- Reset / camera ---------------------------------------------------
     def _clear(self):
         self.stage = "idle"
+        self.uploading = False
+        self.upload_pct = 0
         self.shot = ""
         self.title = ""
         self.artist = ""
@@ -331,7 +349,15 @@ class State(rx.State):
 
     # ---- Entry points -----------------------------------------------------
     @rx.event
+    def on_upload_progress(self, progress: dict):
+        """Drives the "uploading" affordance while the POST is in flight."""
+        self.uploading = True
+        self.upload_pct = int(float(progress.get("progress", 0)) * 100)
+
+    @rx.event
     async def handle_upload(self, files: list[rx.UploadFile]):
+        self.uploading = False
+        self.upload_pct = 0
         if not files:
             return
         data = await files[0].read()
@@ -348,14 +374,50 @@ class State(rx.State):
             return
         return State._begin(self, data)
 
+    @staticmethod
+    def _to_jpeg(data: bytes, max_side: int | None = None) -> bytes:
+        """Normalise whatever the phone handed us into a plain JPEG.
+
+        Uploads are not necessarily JPEG or PNG: an iPhone's library serves
+        HEIC, and Android pickers produce webp. Both the agent and the browser
+        preview want something ordinary, so everything is decoded and re-encoded
+        here rather than each caller guessing at the format.
+
+        `exif_transpose` matters on phones specifically: cameras record the
+        orientation as EXIF metadata instead of rotating the pixels, so a photo
+        taken sideways reaches the agent sideways unless it is applied.
+
+        Returns the original bytes untouched if Pillow cannot decode them --
+        better to let the agent try than to fail outright here.
+        """
+        try:
+            img = Image.open(io.BytesIO(data))
+            img = ImageOps.exif_transpose(img)
+            if max_side:
+                img.thumbnail((max_side, max_side))
+            if img.mode not in ("RGB", "L"):
+                img = img.convert("RGB")
+            buf = io.BytesIO()
+            img.save(buf, format="JPEG", quality=85)
+            return buf.getvalue()
+        except (OSError, ValueError, Image.DecompressionBombError):
+            return data
+
     def _begin(self, data: bytes):
         """Shared setup for both entry points, then hand off to the agent."""
         self._clear()
-        self.shot = f"data:image/jpeg;base64,{base64.b64encode(data).decode()}"
+        # The temp file is what the agent reads, so it gets the full-size image;
+        # `shot` only has to fill a preview box, and it travels to the browser
+        # base64-encoded inside a websocket delta, so it gets a small one.
+        full = State._to_jpeg(data)
+        self.shot = (
+            "data:image/jpeg;base64,"
+            + base64.b64encode(State._to_jpeg(data, max_side=1280)).decode()
+        )
         self.stage = "analyzing"
         self.camera_on = False
         with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
-            tmp.write(data)
+            tmp.write(full)
             self._temp_path = tmp.name
         return State.run_agent
 
