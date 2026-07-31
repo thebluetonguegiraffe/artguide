@@ -352,7 +352,14 @@ def _hero() -> rx.Component:
                             _hover={},
                         ),
                         gap="22px",
-                        align="center",
+                        # Stacked on mobile, side by side from md up. Catalan's
+                        # longer labels already wrapped to two levels on their
+                        # own; pinning the direction gives every language that
+                        # same layout instead of leaving it to string length.
+                        # `start` keeps them left-aligned with the copy above,
+                        # which is how the wrapped version already looked.
+                        direction=rx.breakpoints(initial="column", md="row"),
+                        align=rx.breakpoints(initial="start", md="center"),
                         margin_top="34px",
                         wrap="wrap",
                         custom_attrs=R,
@@ -379,7 +386,10 @@ def _hero() -> rx.Component:
                     max_width=["360px", "420px", "none"],
                 ),
                 direction=rx.breakpoints(initial="column", md="row"),
-                gap=["40px", "48px", "64px"],
+                # Column on mobile, so this gap is the breathing room between
+                # the CTAs and the image; row from md up, where it is the
+                # copy/image column gutter instead.
+                gap=["56px", "60px", "64px"],
                 align="center",
                 width="100%",
             ),
@@ -665,7 +675,9 @@ def _tech() -> rx.Component:
                 State.lc["tech_sub"],
                 size="14px",
                 line_height="1.7",
-                white_space="nowrap",
+                # Single line is a desktop-only conceit: on a phone nowrap just
+                # ran the sentence off the side of the screen.
+                white_space=["normal", "normal", "nowrap"],
                 custom_attrs=R,
             ),
         ),
@@ -743,7 +755,7 @@ def _faq() -> rx.Component:
                 font_size="14px",
                 line_height="1.7",
                 color=s.MUTED,
-                white_space="nowrap",
+                white_space=["normal", "normal", "nowrap"],
                 margin="0",
                 custom_attrs=R,
             ),
