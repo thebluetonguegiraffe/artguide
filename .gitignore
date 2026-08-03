@@ -13,6 +13,8 @@ wheels/
 
 tts/models
 
+benchmarks/models/bench_cache/
+
 .claude/
 # Archived container logs (see Makefile deploy targets)
 logs/
