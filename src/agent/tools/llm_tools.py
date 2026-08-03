@@ -140,23 +140,29 @@ class LLMTools:
 
         clip_evidence_block = ""
         if candidates:
+            lines = []
             for candidate in candidates:
-                if candidate.get("title"):
-                    artist_clause = (
-                        f", artist: {candidate['artist']!r}" if candidate.get("artist") else ""
-                    )
-                    score = candidate.get("score")
-                    score_clause = (
-                        f", visual similarity score: {score:.3f}" if score is not None else ""
-                    )
-                    clip_evidence_block += (
-                        "Additional evidence -- visual similarity search against the indexed "
-                        "artwork database (a vector-similarity match, not a model opinion): "
-                        f"title: {candidate['title']!r}{artist_clause}{score_clause}.\n\n"
-                    )
-            logger.info(
-                f"Including CLIP evidence in judge prompt: title={candidate['title']!r} score={score}"  # noqa
-            )
+                if not candidate.get("title"):
+                    continue
+                artist_clause = (
+                    f", artist: {candidate['artist']!r}" if candidate.get("artist") else ""
+                )
+                score = candidate.get("score")
+                score_clause = (
+                    f", visual similarity score: {score:.3f}" if score is not None else ""
+                )
+                lines.append(f"  - title: {candidate['title']!r}{artist_clause}{score_clause}")
+
+            if lines:
+                clip_evidence_block = (
+                    "Additional evidence -- visual similarity search against the indexed "
+                    "artwork database (vector-similarity matches, not model opinions):\n"
+                    + "\n".join(lines)
+                    + "\n\n"
+                )
+                logger.info(
+                    f"Including {len(lines)} CLIP evidence candidate(s) in judge prompt: {lines}"
+                )
 
         judge_prompt = self.prompts.ART_IDENTIFICATION_JUDGE_PROMPT.format(
             language=self.LANGUAGE_MAPPER[language],

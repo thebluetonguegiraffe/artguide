@@ -7,10 +7,10 @@
   },
   "fallback_rate_pct": 50.0,
   "hard_errors": 0,
-  "empty_titles": 0,
+  "empty_titles": 1,
   "avg_seconds_clip_fast_path": 0.4,
-  "avg_seconds_fallback_with_hint": 9.8,
-  "avg_seconds_fallback_no_hint": 5.8,
+  "avg_seconds_fallback_with_hint": 5.3,
+  "avg_seconds_fallback_no_hint": 5.6,
   "details": [
     {
       "index": 1,
@@ -19,7 +19,7 @@
       "path": "clip_fast_path",
       "returned_title": "Irises",
       "returned_artist": "Vincent van Gogh",
-      "seconds": 0.7,
+      "seconds": 0.4,
       "error": null
     },
     {
@@ -27,9 +27,9 @@
       "expected_title": "Netherlandish Proverbs",
       "clip_score": 0.348,
       "path": "fallback_with_hint",
-      "returned_title": "The Tower of Babel",
-      "returned_artist": null,
-      "seconds": 39.0,
+      "returned_title": "Netherlandish Proverbs",
+      "returned_artist": "Pieter Bruegel the Elder",
+      "seconds": 6.1,
       "error": null
     },
     {
@@ -37,9 +37,9 @@
       "expected_title": "The Last Supper",
       "clip_score": 0.328,
       "path": "fallback_with_hint",
-      "returned_title": "The Last Supper (Coburg Panel)",
-      "returned_artist": "Matthias Grünewald",
-      "seconds": 6.0,
+      "returned_title": null,
+      "returned_artist": null,
+      "seconds": 4.7,
       "error": null
     },
     {
@@ -47,9 +47,9 @@
       "expected_title": "Yellow-Red-Blue",
       "clip_score": 0.344,
       "path": "fallback_with_hint",
-      "returned_title": "Composition with Yellow, Red, Blue, and Black",
+      "returned_title": "Composition with Red, Blue, and Yellow",
       "returned_artist": "Wassily Kandinsky",
-      "seconds": 5.8,
+      "seconds": 5.2,
       "error": null
     },
     {
@@ -69,7 +69,7 @@
       "path": "fallback_with_hint",
       "returned_title": "The Raft of the Medusa",
       "returned_artist": "Théodore Géricault",
-      "seconds": 6.0,
+      "seconds": 5.8,
       "error": null
     },
     {
@@ -87,9 +87,9 @@
       "expected_title": "The Triumph of Death",
       "clip_score": 0.32,
       "path": "fallback_no_hint",
-      "returned_title": "The Fall of the Rebel Angels",
+      "returned_title": "The Triumph of Death",
       "returned_artist": "Pieter Bruegel the Elder",
-      "seconds": 5.8,
+      "seconds": 5.6,
       "error": null
     },
     {
@@ -99,7 +99,7 @@
       "path": "fallback_with_hint",
       "returned_title": "The Two Fridas",
       "returned_artist": "Frida Kahlo",
-      "seconds": 6.0,
+      "seconds": 5.3,
       "error": null
     },
     {
@@ -129,7 +129,7 @@
       "path": "fallback_with_hint",
       "returned_title": "Broadway Boogie Woogie",
       "returned_artist": "Piet Mondrian",
-      "seconds": 6.1,
+      "seconds": 6.6,
       "error": null
     },
     {
@@ -148,8 +148,8 @@
       "clip_score": 0.341,
       "path": "fallback_with_hint",
       "returned_title": "The Last Judgment",
-      "returned_artist": "Francesco da Rimini",
-      "seconds": 4.9,
+      "returned_artist": null,
+      "seconds": 4.1,
       "error": null
     },
     {
@@ -159,7 +159,7 @@
       "path": "clip_fast_path",
       "returned_title": "Sunflowers",
       "returned_artist": "John Bratby",
-      "seconds": 0.5,
+      "seconds": 0.4,
       "error": null
     },
     {
@@ -169,7 +169,7 @@
       "path": "fallback_with_hint",
       "returned_title": "Innocents and Card Sharpers (A Game of Piquet)",
       "returned_artist": "Ernest Meissonier",
-      "seconds": 6.2,
+      "seconds": 5.9,
       "error": null
     },
     {
@@ -199,7 +199,7 @@
       "path": "fallback_with_hint",
       "returned_title": "Composition with Red, Blue, and Yellow",
       "returned_artist": "Piet Mondrian",
-      "seconds": 7.9,
+      "seconds": 4.2,
       "error": null
     },
     {
