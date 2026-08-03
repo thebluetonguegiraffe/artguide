@@ -1,0 +1,401 @@
+{
+  "raw": [
+    {
+      "expected": "Portrait of Tsar Peter I",
+      "top1_title": "Portrait of Tsar Peter I",
+      "score": 0.275459
+    },
+    {
+      "expected": "The Sharp and Competent",
+      "top1_title": "Jahangirshahi",
+      "score": 0.26049384
+    },
+    {
+      "expected": "Collage",
+      "top1_title": "Collage",
+      "score": 0.27630395
+    },
+    {
+      "expected": "Danae",
+      "top1_title": "Danae",
+      "score": 0.33041292
+    },
+    {
+      "expected": "Bathers on the Lawn",
+      "top1_title": "Bathers on the Lawn",
+      "score": 0.32214576
+    },
+    {
+      "expected": "Jahangirshahi",
+      "top1_title": "Window to the Garden",
+      "score": 0.27156523
+    },
+    {
+      "expected": "Bill Gates",
+      "top1_title": "Bill Gates",
+      "score": 0.30545035
+    },
+    {
+      "expected": "Madonna and Child with the Young Saint John",
+      "top1_title": "Madonna and Child with the Young Saint John",
+      "score": 0.34616607
+    },
+    {
+      "expected": "Boy Restraining a Dog",
+      "top1_title": "Boy Restraining a Dog",
+      "score": 0.3368016
+    },
+    {
+      "expected": "Lion",
+      "top1_title": "Lion",
+      "score": 0.28093562
+    },
+    {
+      "expected": "Boats",
+      "top1_title": "A Fishing Boat in Dieppe Harbour",
+      "score": 0.30224684
+    },
+    {
+      "expected": "Sitting girl with a cat",
+      "top1_title": "Sitting girl with a cat",
+      "score": 0.3062715
+    },
+    {
+      "expected": "Dalí's Dream-Prophetic Vision",
+      "top1_title": "Dalí's Dream-Prophetic Vision",
+      "score": 0.31228977
+    },
+    {
+      "expected": "Space Station (Falls Said to be the Largest in the Known World So Far)",
+      "top1_title": "Collage",
+      "score": 0.2682606
+    },
+    {
+      "expected": "Accordionist",
+      "top1_title": "Accordionist",
+      "score": 0.31483865
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "Untitled, (Blooming, A Scattering of Blossoms & Other Things)",
+      "score": 0.2708434
+    },
+    {
+      "expected": "Untitled, (Blooming, A Scattering of Blossoms & Other Things)",
+      "top1_title": "Untitled, (Blooming, A Scattering of Blossoms & Other Things)",
+      "score": 0.3415799
+    },
+    {
+      "expected": "Eden Garden III",
+      "top1_title": "Yellow Painting",
+      "score": 0.2790553
+    },
+    {
+      "expected": "Self-Portrait",
+      "top1_title": "Self-Portrait",
+      "score": 0.292144
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "Untitled",
+      "score": 0.33706066
+    },
+    {
+      "expected": "The Secret School",
+      "top1_title": "The Secret School",
+      "score": 0.28381127
+    },
+    {
+      "expected": "Fox Hunt",
+      "top1_title": "Fox Hunt",
+      "score": 0.32498443
+    },
+    {
+      "expected": "Northern Lights",
+      "top1_title": "Northern Lights",
+      "score": 0.2907645
+    },
+    {
+      "expected": "Jacob and Joseph's Coat",
+      "top1_title": "Jacob and Joseph's Coat",
+      "score": 0.3088805
+    },
+    {
+      "expected": "Silence",
+      "top1_title": "Silence",
+      "score": 0.26595318
+    },
+    {
+      "expected": "Mines",
+      "top1_title": "Untitled (farbfeld)",
+      "score": 0.2520052
+    },
+    {
+      "expected": "Le pape et l'inquisiteur",
+      "top1_title": "Le pape et l'inquisiteur",
+      "score": 0.3211376
+    },
+    {
+      "expected": "The Cuckolds",
+      "top1_title": "Dalí's Dream-Prophetic Vision",
+      "score": 0.29184416
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "Accordionist",
+      "score": 0.2792398
+    },
+    {
+      "expected": "Descent from the Cross (The Deposition)",
+      "top1_title": "Descent from the Cross (The Deposition)",
+      "score": 0.32523948
+    },
+    {
+      "expected": "Nude with Apple",
+      "top1_title": "Nude with Apple",
+      "score": 0.37966597
+    },
+    {
+      "expected": "Kumlu-Kılçıklı Ebru",
+      "top1_title": "Untitled (farbfeld)",
+      "score": 0.2677962
+    },
+    {
+      "expected": "Untitled (farbfeld)",
+      "top1_title": "Untitled",
+      "score": 0.26099652
+    },
+    {
+      "expected": "Towards White",
+      "top1_title": "Untitled (farbfeld)",
+      "score": 0.26389724
+    },
+    {
+      "expected": "Wild geese at Miho, Kiyomi Temple, Suruga, Yoshiwara",
+      "top1_title": "Wild geese at Miho, Kiyomi Temple, Suruga, Yoshiwara",
+      "score": 0.28171426
+    },
+    {
+      "expected": "Corona I",
+      "top1_title": "Yellow Painting",
+      "score": 0.2988473
+    },
+    {
+      "expected": "SICILIAN",
+      "top1_title": "SICILIAN",
+      "score": 0.31151193
+    },
+    {
+      "expected": "Light",
+      "top1_title": "The Mulatto and the Sculpturesque White Woman",
+      "score": 0.27832404
+    },
+    {
+      "expected": "Trial",
+      "top1_title": "Descent from the Cross (The Deposition)",
+      "score": 0.27288765
+    },
+    {
+      "expected": "Studio",
+      "top1_title": "Towards White",
+      "score": 0.27517688
+    },
+    {
+      "expected": "Machinery",
+      "top1_title": "Machinery",
+      "score": 0.32513642
+    },
+    {
+      "expected": "The Angel of the Crown of Thorns",
+      "top1_title": "The Angel of the Crown of Thorns",
+      "score": 0.2859336
+    },
+    {
+      "expected": "It's All Over - The City",
+      "top1_title": "Untitled, (Blooming, A Scattering of Blossoms & Other Things)",
+      "score": 0.28682446
+    },
+    {
+      "expected": "The Artist's Birthplace",
+      "top1_title": "The Artist's Birthplace",
+      "score": 0.29818264
+    },
+    {
+      "expected": "Clous fluorescents N° 23",
+      "top1_title": "Untitled (farbfeld)",
+      "score": 0.28072542
+    },
+    {
+      "expected": "A Fishing Boat in Dieppe Harbour",
+      "top1_title": "A Fishing Boat in Dieppe Harbour",
+      "score": 0.34046733
+    },
+    {
+      "expected": "Yellow Painting",
+      "top1_title": "Yellow Painting",
+      "score": 0.2985807
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "Untitled, (Blooming, A Scattering of Blossoms & Other Things)",
+      "score": 0.26752275
+    },
+    {
+      "expected": "Plate 11. Bird of Washington",
+      "top1_title": "Plate 11. Bird of Washington",
+      "score": 0.35502416
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "Untitled (farbfeld)",
+      "score": 0.25931454
+    },
+    {
+      "expected": "The Age of Bronze",
+      "top1_title": "The Age of Bronze",
+      "score": 0.3192299
+    },
+    {
+      "expected": "The Mulatto and the Sculpturesque White Woman",
+      "top1_title": "The Mulatto and the Sculpturesque White Woman",
+      "score": 0.3419814
+    },
+    {
+      "expected": "Window to the Garden",
+      "top1_title": "Untitled (farbfeld)",
+      "score": 0.2661988
+    },
+    {
+      "expected": "Battle of the Centaurs",
+      "top1_title": "Battle of the Centaurs",
+      "score": 0.34191942
+    },
+    {
+      "expected": "Fish Basket",
+      "top1_title": "Fish Basket",
+      "score": 0.29398346
+    },
+    {
+      "expected": "Espaço Ilusório",
+      "top1_title": "Untitled (farbfeld)",
+      "score": 0.26281106
+    },
+    {
+      "expected": "Abstract Composition 5",
+      "top1_title": "Untitled, (Blooming, A Scattering of Blossoms & Other Things)",
+      "score": 0.29260647
+    },
+    {
+      "expected": "Martyrdom of Saint Sebastian",
+      "top1_title": "Martyrdom of Saint Sebastian",
+      "score": 0.3075973
+    },
+    {
+      "expected": "Pink Square",
+      "top1_title": "Pink Square",
+      "score": 0.29155552
+    }
+  ],
+  "thresholds": [
+    {
+      "threshold": 0.15,
+      "accepted": 59,
+      "tp": 36,
+      "fp": 23,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.61,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.18,
+      "accepted": 59,
+      "tp": 36,
+      "fp": 23,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.61,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.2,
+      "accepted": 59,
+      "tp": 36,
+      "fp": 23,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.61,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.22,
+      "accepted": 59,
+      "tp": 36,
+      "fp": 23,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.61,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.25,
+      "accepted": 59,
+      "tp": 36,
+      "fp": 23,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.61,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.28,
+      "accepted": 39,
+      "tp": 33,
+      "fp": 6,
+      "fn": 3,
+      "tn": 17,
+      "precision": 0.846,
+      "recall": 0.917
+    },
+    {
+      "threshold": 0.3,
+      "accepted": 24,
+      "tp": 23,
+      "fp": 1,
+      "fn": 13,
+      "tn": 22,
+      "precision": 0.958,
+      "recall": 0.639
+    },
+    {
+      "threshold": 0.32,
+      "accepted": 15,
+      "tp": 15,
+      "fp": 0,
+      "fn": 21,
+      "tn": 23,
+      "precision": 1.0,
+      "recall": 0.417
+    },
+    {
+      "threshold": 0.35,
+      "accepted": 2,
+      "tp": 2,
+      "fp": 0,
+      "fn": 34,
+      "tn": 23,
+      "precision": 1.0,
+      "recall": 0.056
+    },
+    {
+      "threshold": 0.4,
+      "accepted": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 36,
+      "tn": 23,
+      "precision": null,
+      "recall": 0.0
+    }
+  ]
+}
