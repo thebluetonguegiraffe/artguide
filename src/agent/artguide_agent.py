@@ -25,34 +25,22 @@ class State(TypedDict):
 
 
 class ArtGuide:
-    SCORE_THRESHOLD = 0.30
+    SCORE_THRESHOLD = 0.35
+    SUGGESTION_THRESHOLD = 0.32
 
     DURATION_TO_NUM_WORDS = {"short": 100, "medium": 150, "long": 200}
 
-    TEXT_MODEL = "openai/gpt-oss-120b"
-    VISION_MODEL = "qwen/qwen3.6-27b"
-
     def __init__(self, config: Dict):
-        # LLM initialization. Two models because the text model is blind: gpt-oss-120b
-        # rejects multimodal messages outright ("content must be a string"), so image
-        # identification goes to a vision-capable model instead.
-        self.llm = init_chat_model(
-            model=self.TEXT_MODEL,
-            model_provider="openai",
-            api_key=os.environ["GROQ_API_KEY"],
-            base_url="https://api.groq.com/openai/v1",
+
+        self.mistral_2603_llm = init_chat_model(
+            model="mistral-small-2603",
+            model_provider="mistralai",
+            api_key=os.environ["MISTRAL_API_KEY"],
         )
-        self.vision_llm = init_chat_model(
-            model=self.VISION_MODEL,
-            model_provider="openai",
-            api_key=os.environ["GROQ_API_KEY"],
-            base_url="https://api.groq.com/openai/v1",
-            # Thinking off. Qwen spends its budget reasoning before emitting the JSON,
-            # and when the answer lands past that budget the provider returns an empty
-            # generation -- a 400 `json_validate_failed` with failed_generation: ''.
-            # It also cuts the call from ~830 completion tokens to ~160, which matters
-            # against the 8000 TPM free-tier ceiling.
-            reasoning_effort="none",
+        self.mistral_8b_2512_llm = init_chat_model(
+            model="ministral-8b-2512",
+            model_provider="mistralai",
+            api_key=os.environ["MISTRAL_API_KEY"],
         )
         # Configuration
         self.language = config["language"]
@@ -60,8 +48,14 @@ class ArtGuide:
         self.n_words = self.DURATION_TO_NUM_WORDS[config["duration"]]
 
         # Tools
-        api_url = api_config['url']
-        self.llm_tools = LLMTools(self.llm, self.vision_llm)
+        api_url = api_config["url"]
+        self.llm_tools = LLMTools(
+            description_model=self.mistral_2603_llm,
+            first_vision_model=self.mistral_8b_2512_llm,
+            second_vision_model=self.mistral_2603_llm,
+            judge_model=self.mistral_2603_llm,
+            structured_output_method="json_schema",
+        )
         self.api_tools = APITools(api_url)
         self.utils = BaseTools()
 
@@ -73,9 +67,9 @@ class ArtGuide:
 
     def search_image_node(self, state: State) -> State:
         # encode image to reach the API
-        with open(state["image_path"], 'rb') as image_file:
+        with open(state["image_path"], "rb") as image_file:
             image_bytes = image_file.read()
-            image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+            image_base64 = base64.b64encode(image_bytes).decode("utf-8")
         results = self.api_tools.search_painting(image_base64)
         return {"results": results}
 
@@ -88,14 +82,25 @@ class ArtGuide:
         return state
 
     def deep_search_node(self, state) -> State:
+        candidate = None
+        clip_top1 = state["results"][0] if state.get("results") else None
+        if (
+            clip_top1
+            and self.SUGGESTION_THRESHOLD <= clip_top1.get("score", 0) < self.SCORE_THRESHOLD
+        ):
+            candidate = clip_top1
+
         painting = self.llm_tools.identify_artwork(
-            image_path=state["image_path"], language=self.language, n_words=self.n_words
+            image_path=state["image_path"],
+            language=self.language,
+            n_words=self.n_words,
+            candidate=candidate,
         )
 
         state["results"].insert(0, painting)  # unnecessary but consistent
         state["top_result"] = painting
 
-        if not painting['title']:
+        if not painting["title"]:
             return {"status": "error"}
 
         return state
@@ -117,7 +122,7 @@ class ArtGuide:
             "samples": audio_data["samples"],
             "sr": audio_data["sr"],
             "top_result": state["top_result"],  # also need in this frontend stage
-            "status": "success"
+            "status": "success",
         }
 
     # ========================= ROUTERS =========================
@@ -192,6 +197,6 @@ class ArtGuide:
 if __name__ == "__main__":
     load_dotenv()
     agent = ArtGuide({"language": "en", "speaker": "female", "duration": "short"})
-    # image_path = "/home/afalceto/artguide/img/matrimoni_arnolfini.jpg"
-    image_path = "/home/ubuntu/artguide/img/matrimoni_arnolfini.jpg"
+    image_path = "/home/afalceto/artguide/img/the_balcony_manet.jpeg"
+    # image_path = "/home/ubuntu/artguide/img/matrimoni_arnolfini.jpg"
     agent.run(image_path=image_path)

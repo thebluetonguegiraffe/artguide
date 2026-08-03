@@ -1,9 +1,11 @@
 import base64
 import logging
+import string
 import time
-from typing import Dict, Optional, Union
-
+from numpy import random
 from pydantic import BaseModel
+from typing import Any, Dict, List, Optional, Union
+from concurrent.futures import ThreadPoolExecutor
 
 from src.agent.prompts import Prompts
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -56,74 +58,115 @@ class ChatArtworkInfo(BaseModel):
 
 class LLMTools:
 
-    LANGUAGE_MAPPER = {
-        "ca": "català",
-        "es": "español",
-        "en": "english"
-    }
+    LANGUAGE_MAPPER = {"ca": "català", "es": "español", "en": "english"}
 
-    VISION_ATTEMPTS = 2
-    VISION_RETRY_WAIT = 2  # seconds, multiplied by the attempt number
+    MODEL_ATTEMPTS = 2
+    MODEL_RETRY_WAIT = 2  # seconds, multiplied by the attempt number
 
-    def __init__(self, llm, vision_llm=None):
-        self.llm = llm
-        self.vision_llm = vision_llm or llm
+    def __init__(
+        self,
+        description_model,
+        first_vision_model,
+        second_vision_model,
+        judge_model,
+        structured_output_method: str = "json_mode",
+    ):
+        self.description_model = description_model
+        self.first_vision_model = first_vision_model or description_model
+        self.second_vision_model = second_vision_model or description_model
+        self.judge_model = judge_model or description_model
+
         self.prompts = Prompts
+        self.structured_output_method = structured_output_method
 
-    def identify_artwork(self, image_path: str, language: str, n_words: int) -> Dict:
-        """Identifies painting using LLM"""
+    def identify_artwork(
+        self, image_path: str, language: str, n_words: int, candidate: Optional[Dict] = None
+    ) -> Dict:
+        """Identifies painting via two independent blind LLM opinions plus CLIP's
+        own candidate (when available), arbitrated by a judge call over anonymized
+        options. Neither blind model ever sees the other's answer or CLIP's hint --
+        that anchoring is exactly what we're avoiding here."""
 
-        # `json_mode` rather than the default `json_schema`: the vision models available
-        # on Groq support neither json_schema nor reliable tool calling, so the schema is
-        # spelled out in the prompt and validated by ChatArtworkInfo on the way out.
-        llm_artwork_info = self.vision_llm.with_structured_output(
-            ChatArtworkInfo, method="json_mode"
+        first_model_inference = self.first_vision_model.with_structured_output(
+            ChatArtworkInfo, method=self.structured_output_method
         )
+        second_model_inference = self.second_vision_model.with_structured_output(
+            ChatArtworkInfo, method=self.structured_output_method
+        )
+
         with open(image_path, "rb") as img:
             image_b64 = base64.b64encode(img.read()).decode("utf-8")
 
-        logger.info(
-            f"Deep analysis on image: {image_path} "
-            f"({len(image_b64) / 1e6:.2f}MB base64, model={getattr(self.vision_llm, 'model_name', '?')})"  # noqa
-        )
-        prompt = self.prompts.ART_IDENTIFICATION_PROMPT.format(
+        image_content = {
+            "type": "image_url",
+            "image_url": {"url": "data:image/jpeg;base64," + image_b64},
+        }
+
+        logger.info(f"Deep analysis on image: {image_path} ({len(image_b64) / 1e6:.2f}MB base64)")
+
+        blind_prompt = self.prompts.ART_IDENTIFICATION_PROMPT.format(
             language=self.LANGUAGE_MAPPER[language],
-            n_words=n_words
+            n_words=n_words,
         )
-        messages = [
+        blind_messages = [
             SystemMessage(content=self.prompts.SYSTEM_GUIDELINES),
-            HumanMessage(
-                content=[
-                    {
-                        "type": "text",
-                        "text": prompt
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": "data:image/jpeg;base64," + image_b64},
-                    },
-                ]
-            ),
+            HumanMessage(content=[{"type": "text", "text": blind_prompt}, image_content]),
         ]
 
-        # Groq serves this model on shared capacity and intermittently answers 503
-        # ("over capacity") or drops an empty generation. Both are transient, and
-        # without a retry a single flake surfaces as "unknown painting".
-        for attempt in range(1, self.VISION_ATTEMPTS + 1):
+        # The two blind calls are independent network requests -- run them
+        # concurrently so wall-clock cost is bounded by the slower one, not the sum.
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            first_future = executor.submit(
+                self._invoke_blind, blind_messages, first_model_inference, "first_vision_model"
+            )
+            second_future = executor.submit(
+                self._invoke_blind, blind_messages, second_model_inference, "second_vision_model"
+            )
+            first_result = first_future.result()
+            second_result = second_future.result()
+
+        logger.info(
+            f"Blind opinions -- "
+            f"first: title={first_result['title']!r} artist={first_result['artist']!r} | "
+            f"second: title={second_result['title']!r} artist={second_result['artist']!r}"
+        )
+
+        options = [first_result, second_result]
+        if candidate and candidate.get("title"):
+            options.append({"title": candidate["title"], "artist": candidate.get("artist", "")})
+            logger.info(f"Including CLIP candidate in judge pool: title={candidate['title']!r}")
+
+        # Shuffle so option order carries no signal, and label anonymously (Option
+        # A/B/C -- never "CLIP says" / "model X says") so the judge decides on
+        # content, not source authority or recognition of its own earlier answer.
+        random.shuffle(options)
+        options_block = "\n".join(
+            f"Option {letter}: title={opt['title']!r}, artist={opt.get('artist', '')!r}"
+            for letter, opt in zip(string.ascii_uppercase, options)
+        )
+
+        judge_prompt = self.prompts.ART_IDENTIFICATION_JUDGE_PROMPT.format(
+            language=self.LANGUAGE_MAPPER[language],
+            n_words=n_words,
+            options_block=options_block,
+        )
+        judge_messages = [
+            SystemMessage(content=self.prompts.SYSTEM_GUIDELINES),
+            HumanMessage(content=[{"type": "text", "text": judge_prompt}, image_content]),
+        ]
+
+        for attempt in range(1, self.MODEL_ATTEMPTS + 1):
             try:
-                response = llm_artwork_info.invoke(messages)
+                response = first_model_inference.invoke(judge_messages)
                 break
             except Exception as exc:
-                # The provider's own explanation lives in the response body, which the
-                # exception's str() truncates away -- without it a failure here is an
-                # unattributable "unknown painting" in the UI.
                 logger.error(
-                    f"Vision identification failed "
-                    f"(attempt {attempt}/{self.VISION_ATTEMPTS}): {_describe_api_error(exc)}"
+                    f"Judge identification failed "
+                    f"(attempt {attempt}/{self.MODEL_ATTEMPTS}): {_describe_api_error(exc)}"
                 )
-                if attempt == self.VISION_ATTEMPTS or not _is_transient(exc):
+                if attempt == self.MODEL_ATTEMPTS or not _is_transient(exc):
                     raise
-                time.sleep(self.VISION_RETRY_WAIT * attempt)
+                time.sleep(self.MODEL_RETRY_WAIT * attempt)
 
         result = response.to_dict()
         logger.info(f"Identified: title={result['title']!r} artist={result['artist']!r}")
@@ -133,12 +176,10 @@ class LLMTools:
         """Generates painting description and enriches painting info"""
 
         logger.info(f"Generating description: {title}")
-        llm_artwork_info = self.llm.with_structured_output(ChatArtworkInfo)
+        llm_artwork_info = self.description_model.with_structured_output(ChatArtworkInfo)
 
         prompt = self.prompts.DESCRIPTION_GENERATION.format(
-            language=language,
-            n_words=n_words,
-            title=title
+            language=language, n_words=n_words, title=title
         )
 
         response = llm_artwork_info.invoke(
@@ -146,3 +187,17 @@ class LLMTools:
         )
 
         return response.to_dict()
+
+    def _invoke_blind(self, blind_messages: List, model_inference: Any, model_label: str) -> Dict:
+        for attempt in range(1, self.MODEL_ATTEMPTS + 1):
+            try:
+                response = model_inference.invoke(blind_messages)
+                return response.to_dict()
+            except Exception as exc:
+                logger.error(
+                    f"{model_label} identification failed "
+                    f"(attempt {attempt}/{self.MODEL_ATTEMPTS}): {_describe_api_error(exc)}"
+                )
+                if attempt == self.MODEL_ATTEMPTS or not _is_transient(exc):
+                    raise
+                time.sleep(self.MODEL_RETRY_WAIT * attempt)

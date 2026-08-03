@@ -1,0 +1,216 @@
+{
+  "total": 20,
+  "path_counts": {
+    "clip_fast_path": 9,
+    "fallback_with_hint": 9,
+    "fallback_no_hint": 2
+  },
+  "fallback_rate_pct": 55.0,
+  "hard_errors": 0,
+  "empty_titles": 1,
+  "avg_seconds_clip_fast_path": 0.5,
+  "avg_seconds_fallback_with_hint": 6.0,
+  "avg_seconds_fallback_no_hint": 4.9,
+  "details": [
+    {
+      "index": 1,
+      "expected_title": "Irises",
+      "clip_score": 0.361,
+      "path": "clip_fast_path",
+      "returned_title": "Irises",
+      "returned_artist": "Vincent van Gogh",
+      "seconds": 0.6,
+      "error": null
+    },
+    {
+      "index": 2,
+      "expected_title": "Netherlandish Proverbs",
+      "clip_score": 0.348,
+      "path": "fallback_with_hint",
+      "returned_title": "The Triumph of Death",
+      "returned_artist": "Pieter Bruegel the Elder",
+      "seconds": 5.7,
+      "error": null
+    },
+    {
+      "index": 3,
+      "expected_title": "The Last Supper",
+      "clip_score": 0.328,
+      "path": "fallback_with_hint",
+      "returned_title": "The Last Supper (Attributed to the Master of the Vienna Donator Portrait)",
+      "returned_artist": null,
+      "seconds": 5.8,
+      "error": null
+    },
+    {
+      "index": 4,
+      "expected_title": "Yellow-Red-Blue",
+      "clip_score": 0.344,
+      "path": "fallback_with_hint",
+      "returned_title": "Composition with Yellow, Red, Blue, Black, and White",
+      "returned_artist": "Wassily Kandinsky",
+      "seconds": 5.9,
+      "error": null
+    },
+    {
+      "index": 5,
+      "expected_title": "Charles IV of Spain and his family",
+      "clip_score": 0.373,
+      "path": "clip_fast_path",
+      "returned_title": "Charles IV of Spain and his family",
+      "returned_artist": "Francisco Goya",
+      "seconds": 0.4,
+      "error": null
+    },
+    {
+      "index": 6,
+      "expected_title": "The Raft of the Medusa",
+      "clip_score": 0.332,
+      "path": "fallback_with_hint",
+      "returned_title": "The Raft of the Medusa",
+      "returned_artist": "Théodore Géricault",
+      "seconds": 5.6,
+      "error": null
+    },
+    {
+      "index": 7,
+      "expected_title": "The Milkmaid",
+      "clip_score": 0.353,
+      "path": "clip_fast_path",
+      "returned_title": "Portrait of Madame de Stael as Corinne",
+      "returned_artist": "Louise Elisabeth Vigee Le Brun",
+      "seconds": 0.4,
+      "error": null
+    },
+    {
+      "index": 8,
+      "expected_title": "The Triumph of Death",
+      "clip_score": 0.32,
+      "path": "fallback_no_hint",
+      "returned_title": "The Triumph of Death",
+      "returned_artist": "Pieter Bruegel the Elder",
+      "seconds": 5.9,
+      "error": null
+    },
+    {
+      "index": 9,
+      "expected_title": "The Two Fridas",
+      "clip_score": 0.342,
+      "path": "fallback_with_hint",
+      "returned_title": "The Two Fridas",
+      "returned_artist": "Frida Kahlo",
+      "seconds": 5.1,
+      "error": null
+    },
+    {
+      "index": 10,
+      "expected_title": "Hunters in the Snow",
+      "clip_score": 0.356,
+      "path": "clip_fast_path",
+      "returned_title": "Hunters in the Snow",
+      "returned_artist": "Pieter Bruegel the Elder",
+      "seconds": 0.6,
+      "error": null
+    },
+    {
+      "index": 11,
+      "expected_title": "The Kiss",
+      "clip_score": 0.306,
+      "path": "fallback_no_hint",
+      "returned_title": null,
+      "returned_artist": null,
+      "seconds": 3.9,
+      "error": null
+    },
+    {
+      "index": 12,
+      "expected_title": "Broadway Boogie Woogie",
+      "clip_score": 0.341,
+      "path": "fallback_with_hint",
+      "returned_title": "Broadway Boogie Woogie",
+      "returned_artist": "Piet Mondrian",
+      "seconds": 6.6,
+      "error": null
+    },
+    {
+      "index": 13,
+      "expected_title": "The Balcony",
+      "clip_score": 0.369,
+      "path": "clip_fast_path",
+      "returned_title": "The Balcony",
+      "returned_artist": "Edouard Manet",
+      "seconds": 0.4,
+      "error": null
+    },
+    {
+      "index": 14,
+      "expected_title": "The Last Judgment",
+      "clip_score": 0.341,
+      "path": "fallback_with_hint",
+      "returned_title": "The Last Judgment",
+      "returned_artist": "Fra Angelico",
+      "seconds": 5.7,
+      "error": null
+    },
+    {
+      "index": 15,
+      "expected_title": "Sunflowers",
+      "clip_score": 0.359,
+      "path": "clip_fast_path",
+      "returned_title": "Sunflowers",
+      "returned_artist": "John Bratby",
+      "seconds": 0.5,
+      "error": null
+    },
+    {
+      "index": 16,
+      "expected_title": "The Card Players",
+      "clip_score": 0.342,
+      "path": "fallback_with_hint",
+      "returned_title": "Chess Players",
+      "returned_artist": "Ernest Meissonier",
+      "seconds": 7.7,
+      "error": null
+    },
+    {
+      "index": 17,
+      "expected_title": "The Birth of Venus",
+      "clip_score": 0.375,
+      "path": "clip_fast_path",
+      "returned_title": "The Birth of Venus",
+      "returned_artist": "Sandro Botticelli",
+      "seconds": 0.4,
+      "error": null
+    },
+    {
+      "index": 18,
+      "expected_title": "American Gothic",
+      "clip_score": 0.395,
+      "path": "clip_fast_path",
+      "returned_title": "American Gothic",
+      "returned_artist": "Grant Wood",
+      "seconds": 0.4,
+      "error": null
+    },
+    {
+      "index": 19,
+      "expected_title": "Counter composition VII",
+      "clip_score": 0.349,
+      "path": "fallback_with_hint",
+      "returned_title": "Composition with Red, Blue, and Yellow",
+      "returned_artist": "Piet Mondrian",
+      "seconds": 5.9,
+      "error": null
+    },
+    {
+      "index": 20,
+      "expected_title": "The Girl with a Pearl Earring",
+      "clip_score": 0.352,
+      "path": "clip_fast_path",
+      "returned_title": "The Girl with a Pearl Earring",
+      "returned_artist": "Johannes Vermeer",
+      "seconds": 0.4,
+      "error": null
+    }
+  ]
+}
