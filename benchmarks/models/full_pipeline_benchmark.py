@@ -1,7 +1,8 @@
 import base64
-# import json
+import json
 import logging
 import os
+import random
 import time
 from typing import Dict, List, Optional
 
@@ -27,12 +28,8 @@ SUBSET_SIZE = 20
 # hits go straight through CLIP/Qdrant and don't need spacing out.
 SECONDS_BETWEEN_FALLBACK_CALLS = 1
 
-TARGET_INDICES = {2, 7, 11, 16}
-
 
 def subset(eval_set: List[Dict], n: int, seed: int = 42) -> List[Dict]:
-    import random
-
     if n >= len(eval_set):
         return eval_set
     return random.Random(seed).sample(eval_set, n)
@@ -64,19 +61,31 @@ def build_tools():
     return llm_tools, api_tools, utils
 
 
-def route(clip_top1: Optional[Dict], utils: BaseTools) -> str:
-    """Same branching identify_artwork's callers do in the real graph
-    (route_deep_research + the candidate zone check inside deep_search_node),
-    just pulled out here so the benchmark can report on it directly."""
+def route(results: List[Dict], utils: BaseTools) -> str:
+    """Mirrors ArtGuide: the fast-path decision still depends only on clip_top1's
+    score (route_deep_research never changed). Whether the fallback carries any
+    CLIP evidence now depends on the full gray-zone band, not just top-1
+    (deep_search_node builds `candidates` from every result in range)."""
+    clip_top1 = results[0] if results else None
     if not clip_top1:
         return "fallback_no_hint"
 
-    score = clip_top1.get("score", 0)
-    if utils.score_meets_threshold(score, ArtGuide.SCORE_THRESHOLD):
+    if utils.score_meets_threshold(clip_top1.get("score", 0), ArtGuide.SCORE_THRESHOLD):
         return "clip_fast_path"
-    if ArtGuide.SUGGESTION_THRESHOLD <= score < ArtGuide.SCORE_THRESHOLD:
-        return "fallback_with_hint"
-    return "fallback_no_hint"
+
+    candidates = build_candidates(results)
+    return "fallback_with_hint" if candidates else "fallback_no_hint"
+
+
+def build_candidates(results: List[Dict]) -> List[Dict]:
+    """Every CLIP result whose score falls in the SUGGESTION_THRESHOLD/
+    SCORE_THRESHOLD gray band -- not just the top one -- passed to the judge as
+    a set of visual-similarity leads."""
+    return [
+        r
+        for r in results
+        if ArtGuide.SUGGESTION_THRESHOLD <= r.get("score", 0) < ArtGuide.SCORE_THRESHOLD
+    ]
 
 
 def evaluate_pipeline(
@@ -100,19 +109,19 @@ def evaluate_pipeline(
 
             results = api_tools.search_painting(image_base64)
             clip_top1 = results[0] if results else None
-            path = route(clip_top1, utils)
+            path = route(results, utils)
             path_counts[path] += 1
 
             if path == "clip_fast_path":
                 returned_title = clip_top1.get("title")
                 returned_artist = clip_top1.get("artist")
             else:
-                candidate = clip_top1 if path == "fallback_with_hint" else None
+                candidates = build_candidates(results)
                 painting = llm_tools.identify_artwork(
                     image_path=item["image_path"],
                     language=LANGUAGE,
                     n_words=N_WORDS,
-                    candidate=candidate,
+                    candidates=candidates,
                 )
                 returned_title = painting.get("title")
                 returned_artist = painting.get("artist")
@@ -187,8 +196,7 @@ def evaluate_pipeline(
 
 def print_title_comparison(details: List[Dict]) -> None:
     """Full expected-vs-returned table for manual review, with the CLIP score and
-    routing path attached so you can see *why* each image went where it went,
-    not just what came out at the end."""
+    routing path attached so you can see *why* each image went where it went."""
     print("\n  Title comparison (manual review)")
     print(
         f"  {'#':>3} {'path':<19} {'score':>6} {'seconds':>7} " f"{'expected':<36} {'returned':<36}"
@@ -206,65 +214,28 @@ def print_title_comparison(details: List[Dict]) -> None:
 if __name__ == "__main__":
     load_dotenv()
 
-    # eval_set = subset(load_eval_set(CACHE_DIR), SUBSET_SIZE)
-
-    # print(f"  using {len(eval_set)} of the cached images (subset cap={SUBSET_SIZE})")
-    # print(
-    #     f"  thresholds from ArtGuide: SCORE_THRESHOLD={ArtGuide.SCORE_THRESHOLD} "
-    #     f"SUGGESTION_THRESHOLD={ArtGuide.SUGGESTION_THRESHOLD}\n"
-    # )
-
-    llm_tools, api_tools, utils = build_tools()
-    # result = evaluate_pipeline(llm_tools, api_tools, utils, eval_set)
-    # print_title_comparison(result["details"])
-
-    # print("\n--- Full pipeline stats (CLIP + fallback) ---")
-    # print(f"total: {result['total']}")
-    # print(f"path_counts: {result['path_counts']}")
-    # print(f"fallback_rate_pct: {result['fallback_rate_pct']}")
-    # print(f"hard_errors: {result['hard_errors']}")
-    # print(f"empty_titles (fallback only): {result['empty_titles']}")
-    # print(f"avg_seconds clip_fast_path: {result['avg_seconds_clip_fast_path']}")
-    # print(f"avg_seconds fallback_with_hint: {result['avg_seconds_fallback_with_hint']}")
-    # print(f"avg_seconds fallback_no_hint: {result['avg_seconds_fallback_no_hint']}")
-
-    # output_path = "benchmarks/models/benchmark_full_pipeline_results.json"
-    # with open(output_path, "w") as f:
-    #     json.dump(result, f, indent=2, ensure_ascii=False)
-    # print(f"\nResults saved to {output_path}")
     eval_set = subset(load_eval_set(CACHE_DIR), SUBSET_SIZE)
-    targets = [(i, item) for i, item in enumerate(eval_set, 1) if i in TARGET_INDICES]
-
+    print(f"  using {len(eval_set)} of the cached images (subset cap={SUBSET_SIZE})")
     print(
-        f"  isolating {len(targets)} of {len(eval_set)} cached images: {sorted(TARGET_INDICES)}\n"
+        f"  thresholds from ArtGuide: SCORE_THRESHOLD={ArtGuide.SCORE_THRESHOLD} "
+        f"SUGGESTION_THRESHOLD={ArtGuide.SUGGESTION_THRESHOLD}\n"
     )
 
-    for i, item in targets:
-        print(f"\n{'=' * 70}\n[{i}] expected: {item['title']!r}\n{'=' * 70}")
+    llm_tools, api_tools, utils = build_tools()
+    result = evaluate_pipeline(llm_tools, api_tools, utils, eval_set)
+    print_title_comparison(result["details"])
 
-        with open(item["image_path"], "rb") as f:
-            image_base64 = base64.b64encode(f.read()).decode("utf-8")
+    print("\n--- Full pipeline stats (CLIP + fallback) ---")
+    print(f"total: {result['total']}")
+    print(f"path_counts: {result['path_counts']}")
+    print(f"fallback_rate_pct: {result['fallback_rate_pct']}")
+    print(f"hard_errors: {result['hard_errors']}")
+    print(f"empty_titles (fallback only): {result['empty_titles']}")
+    print(f"avg_seconds clip_fast_path: {result['avg_seconds_clip_fast_path']}")
+    print(f"avg_seconds fallback_with_hint: {result['avg_seconds_fallback_with_hint']}")
+    print(f"avg_seconds fallback_no_hint: {result['avg_seconds_fallback_no_hint']}")
 
-        results = api_tools.search_painting(image_base64)
-        print("  CLIP top-5:")
-        for rank, r in enumerate(results[:5], 1):
-            print(f"    {rank}. {r.get('title')!r} (score={r.get('score'):.3f})")
-
-        clip_top1 = results[0] if results else None
-        path = route(clip_top1, utils)
-        print(f"  routed to: {path}")
-
-        if path == "clip_fast_path":
-            print("  (fast path -- never reaches identify_artwork, nothing more to inspect here)")
-            continue
-
-        candidate = clip_top1 if path == "fallback_with_hint" else None
-        painting = llm_tools.identify_artwork(
-            image_path=item["image_path"],
-            language=LANGUAGE,
-            n_words=N_WORDS,
-            candidate=candidate,
-        )
-        print(
-            f"  final (post-judge): title={painting.get('title')!r} artist={painting.get('artist')!r}"  # noqa
-        )
+    output_path = "benchmarks/models/benchmark_full_pipeline_results.json"
+    with open(output_path, "w") as f:
+        json.dump(result, f, indent=2, ensure_ascii=False)
+    print(f"\nResults saved to {output_path}")

@@ -1,16 +1,16 @@
 {
   "total": 20,
   "path_counts": {
-    "clip_fast_path": 9,
+    "clip_fast_path": 10,
     "fallback_with_hint": 9,
-    "fallback_no_hint": 2
+    "fallback_no_hint": 1
   },
-  "fallback_rate_pct": 55.0,
+  "fallback_rate_pct": 50.0,
   "hard_errors": 0,
-  "empty_titles": 1,
-  "avg_seconds_clip_fast_path": 0.5,
-  "avg_seconds_fallback_with_hint": 6.0,
-  "avg_seconds_fallback_no_hint": 4.9,
+  "empty_titles": 0,
+  "avg_seconds_clip_fast_path": 0.4,
+  "avg_seconds_fallback_with_hint": 9.8,
+  "avg_seconds_fallback_no_hint": 5.8,
   "details": [
     {
       "index": 1,
@@ -19,7 +19,7 @@
       "path": "clip_fast_path",
       "returned_title": "Irises",
       "returned_artist": "Vincent van Gogh",
-      "seconds": 0.6,
+      "seconds": 0.7,
       "error": null
     },
     {
@@ -27,9 +27,9 @@
       "expected_title": "Netherlandish Proverbs",
       "clip_score": 0.348,
       "path": "fallback_with_hint",
-      "returned_title": "The Triumph of Death",
-      "returned_artist": "Pieter Bruegel the Elder",
-      "seconds": 5.7,
+      "returned_title": "The Tower of Babel",
+      "returned_artist": null,
+      "seconds": 39.0,
       "error": null
     },
     {
@@ -37,9 +37,9 @@
       "expected_title": "The Last Supper",
       "clip_score": 0.328,
       "path": "fallback_with_hint",
-      "returned_title": "The Last Supper (Attributed to the Master of the Vienna Donator Portrait)",
-      "returned_artist": null,
-      "seconds": 5.8,
+      "returned_title": "The Last Supper (Coburg Panel)",
+      "returned_artist": "Matthias Grünewald",
+      "seconds": 6.0,
       "error": null
     },
     {
@@ -47,9 +47,9 @@
       "expected_title": "Yellow-Red-Blue",
       "clip_score": 0.344,
       "path": "fallback_with_hint",
-      "returned_title": "Composition with Yellow, Red, Blue, Black, and White",
+      "returned_title": "Composition with Yellow, Red, Blue, and Black",
       "returned_artist": "Wassily Kandinsky",
-      "seconds": 5.9,
+      "seconds": 5.8,
       "error": null
     },
     {
@@ -69,16 +69,16 @@
       "path": "fallback_with_hint",
       "returned_title": "The Raft of the Medusa",
       "returned_artist": "Théodore Géricault",
-      "seconds": 5.6,
+      "seconds": 6.0,
       "error": null
     },
     {
       "index": 7,
       "expected_title": "The Milkmaid",
-      "clip_score": 0.353,
+      "clip_score": 0.36,
       "path": "clip_fast_path",
-      "returned_title": "Portrait of Madame de Stael as Corinne",
-      "returned_artist": "Louise Elisabeth Vigee Le Brun",
+      "returned_title": "The Milkmaid",
+      "returned_artist": "Johannes Vermeer",
       "seconds": 0.4,
       "error": null
     },
@@ -87,9 +87,9 @@
       "expected_title": "The Triumph of Death",
       "clip_score": 0.32,
       "path": "fallback_no_hint",
-      "returned_title": "The Triumph of Death",
+      "returned_title": "The Fall of the Rebel Angels",
       "returned_artist": "Pieter Bruegel the Elder",
-      "seconds": 5.9,
+      "seconds": 5.8,
       "error": null
     },
     {
@@ -99,7 +99,7 @@
       "path": "fallback_with_hint",
       "returned_title": "The Two Fridas",
       "returned_artist": "Frida Kahlo",
-      "seconds": 5.1,
+      "seconds": 6.0,
       "error": null
     },
     {
@@ -109,17 +109,17 @@
       "path": "clip_fast_path",
       "returned_title": "Hunters in the Snow",
       "returned_artist": "Pieter Bruegel the Elder",
-      "seconds": 0.6,
+      "seconds": 0.4,
       "error": null
     },
     {
       "index": 11,
       "expected_title": "The Kiss",
-      "clip_score": 0.306,
-      "path": "fallback_no_hint",
-      "returned_title": null,
-      "returned_artist": null,
-      "seconds": 3.9,
+      "clip_score": 0.37,
+      "path": "clip_fast_path",
+      "returned_title": "The Kiss",
+      "returned_artist": "Gustav Klimt",
+      "seconds": 0.3,
       "error": null
     },
     {
@@ -129,7 +129,7 @@
       "path": "fallback_with_hint",
       "returned_title": "Broadway Boogie Woogie",
       "returned_artist": "Piet Mondrian",
-      "seconds": 6.6,
+      "seconds": 6.1,
       "error": null
     },
     {
@@ -148,8 +148,8 @@
       "clip_score": 0.341,
       "path": "fallback_with_hint",
       "returned_title": "The Last Judgment",
-      "returned_artist": "Fra Angelico",
-      "seconds": 5.7,
+      "returned_artist": "Francesco da Rimini",
+      "seconds": 4.9,
       "error": null
     },
     {
@@ -167,9 +167,9 @@
       "expected_title": "The Card Players",
       "clip_score": 0.342,
       "path": "fallback_with_hint",
-      "returned_title": "Chess Players",
+      "returned_title": "Innocents and Card Sharpers (A Game of Piquet)",
       "returned_artist": "Ernest Meissonier",
-      "seconds": 7.7,
+      "seconds": 6.2,
       "error": null
     },
     {
@@ -199,7 +199,7 @@
       "path": "fallback_with_hint",
       "returned_title": "Composition with Red, Blue, and Yellow",
       "returned_artist": "Piet Mondrian",
-      "seconds": 5.9,
+      "seconds": 7.9,
       "error": null
     },
     {
@@ -209,7 +209,7 @@
       "path": "clip_fast_path",
       "returned_title": "The Girl with a Pearl Earring",
       "returned_artist": "Johannes Vermeer",
-      "seconds": 0.4,
+      "seconds": 0.5,
       "error": null
     }
   ]

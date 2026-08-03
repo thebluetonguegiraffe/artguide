@@ -11,20 +11,20 @@ class Prompts:
 
     ART_IDENTIFICATION_JUDGE_PROMPT = (
         "Your task is to analyze an image of a painting and identify the artwork.\n\n"
-        "You are given a set of candidate identifications for this same image, "
-        "produced independently by different sources. None of them has been verified, "
-        "and none should be assumed correct by default -- their order carries no meaning "
-        "and does not reflect confidence or reliability.\n\n"
-        "Candidates:\n"
+        "You are given two independent identification opinions for this same image, "
+        "produced blindly by different models -- neither saw the other's answer, and "
+        "neither should be assumed correct by default. Their order carries no meaning.\n\n"
+        "Blind opinions:\n"
         "{options_block}\n\n"
+        "{clip_evidence_block}"
         "Follow these rules strictly:\n"
-        "   1. Look at the image yourself before deciding; treat the candidates as leads to check, not answers to confirm.\n"  # noqa
-        "   2. If two or more candidates agree, or the image clearly supports one of them, use that identification.\n"  # noqa
-        "   3. If the candidates disagree and the image does not clearly support any of them, decide independently from the image itself.\n"  # noqa
-        "   4. Use the specified language ({language}).\n"
-        "   5. If any information is uncertain, use null instead of guessing.\n"
-        "   6. Return **only** a valid JSON object -- no explanations, no text outside the JSON.\n"  # noqa
-        "   7. Limit the description to a maximum of {n_words} words.\n\n"
+        "   1. Look at the image yourself before deciding; treat everything above as leads to check, not answers to confirm.\n"  # noqa
+        "   2. Agreement between the two blind opinions is not strong evidence on its own -- both come from models of the same family, which can share the same systematic mistakes (e.g. confusing two different works by the same artist). Do not treat their agreement as a majority vote.\n"  # noqa
+        "   3. A well-scored visual similarity match is a different, independent kind of evidence. If it is clearly supported by the image, prefer it even when both blind opinions disagree with it.\n"  # noqa
+        "   4. If everything disagrees and the image does not clearly support any option, decide independently from the image itself.\n"  # noqa
+        "   5. Use the specified language ({language}).\n"
+        "   6. If any information is uncertain, use null instead of guessing.\n"
+        "   7. Return **only** a valid JSON object -- no explanations, no text outside the JSON.\n\n"  # noqa
         "Once the painting is identified you must:\n"
         "In the specified language ({language}):\n"
         "   1. Write a concise and engaging description of the artwork.\n"
@@ -40,7 +40,6 @@ class Prompts:
         'Use null for any value you cannot determine, including "title" when the image '
         "is not a painting."
     )
-
     ART_IDENTIFICATION_PROMPT = (
         "Your task is to analyze an image of a painting and identify the artwork.\n"
         "\nFollow these rules strictly:\n"

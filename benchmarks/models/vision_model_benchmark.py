@@ -1,3 +1,4 @@
+import base64
 import json
 import logging
 import os
@@ -8,9 +9,11 @@ from typing import Dict, List
 
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
+from langchain_core.messages import HumanMessage, SystemMessage
 
 from benchmarks.models.generate_dataset import load_eval_set
-from src.agent.tools.llm_tools import LLMTools
+from src.agent.prompts import Prompts
+from src.agent.tools.llm_tools import ChatArtworkInfo, _describe_api_error, _is_transient
 
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.basicConfig(level=logging.WARNING)
@@ -21,6 +24,10 @@ N_WORDS = 100
 SECONDS_BETWEEN_MODELS = 1  # small buffer so rate limits don't pile up across models
 
 SUBSET_SIZE = 20
+
+LANGUAGE_MAPPER = {"ca": "català", "es": "español", "en": "english"}
+MODEL_ATTEMPTS = 2
+MODEL_RETRY_WAIT = 2  # seconds, multiplied by the attempt number
 
 VISION_MODELS = [
     {"model": "ministral-8b-2512", "provider": "mistralai"},
@@ -66,10 +73,16 @@ def is_match(returned_title: str, expected_title: str) -> bool:
     return a == b or _plural_variant(a, b)
 
 
-def build_llm_tools(candidate: Dict) -> LLMTools:
+def build_vision_llm(candidate: Dict):
+    """Returns (vision_llm, structured_output_method) for one candidate model.
+
+    Deliberately does NOT construct an LLMTools instance: LLMTools.identify_artwork
+    now runs a two-model blind+judge ensemble (3+ calls per image), which measures
+    the ensemble's behavior, not a single model's own identification quality. This
+    benchmark wants the latter, so it talks to the model directly instead.
+    """
     provider = candidate["provider"]
     if provider == "groq":
-        structured_output_method = "json_mode"
         vision_llm = init_chat_model(
             model=candidate["model"],
             model_provider="openai",
@@ -77,26 +90,64 @@ def build_llm_tools(candidate: Dict) -> LLMTools:
             base_url="https://api.groq.com/openai/v1",
             reasoning_effort="none",
         )
+        return vision_llm, "json_mode"
     elif provider == "mistralai":
-        structured_output_method = "json_schema"
         vision_llm = init_chat_model(
             model=candidate["model"],
             model_provider="mistralai",
             api_key=os.environ["MISTRAL_API_KEY"],
         )
+        return vision_llm, "json_schema"
     else:
         raise ValueError(f"Unknown provider: {provider!r}")
 
-    return LLMTools(
-        llm=vision_llm, vision_llm=vision_llm, structured_output_method=structured_output_method
+
+def identify_artwork_raw(vision_llm, structured_output_method: str, image_path: str) -> Dict:
+    """Single raw identification call, same prompt/schema production uses, no
+    ensemble machinery -- this is what LLMTools.identify_artwork used to be
+    before it grew into the blind+judge pipeline. Reuses Prompts/ChatArtworkInfo
+    straight from production so the benchmark stays in sync if the prompt changes.
+    """
+    llm_artwork_info = vision_llm.with_structured_output(
+        ChatArtworkInfo, method=structured_output_method
     )
+
+    with open(image_path, "rb") as img:
+        image_b64 = base64.b64encode(img.read()).decode("utf-8")
+    image_content = {
+        "type": "image_url",
+        "image_url": {"url": "data:image/jpeg;base64," + image_b64},
+    }
+
+    prompt = Prompts.ART_IDENTIFICATION_PROMPT.format(
+        language=LANGUAGE_MAPPER[LANGUAGE], n_words=N_WORDS, candidate_hint=""
+    )
+    messages = [
+        SystemMessage(content=Prompts.SYSTEM_GUIDELINES),
+        HumanMessage(content=[{"type": "text", "text": prompt}, image_content]),
+    ]
+
+    for attempt in range(1, MODEL_ATTEMPTS + 1):
+        try:
+            response = llm_artwork_info.invoke(messages)
+            return response.to_dict()
+        except Exception as exc:
+            logging.error(
+                f"Vision identification failed (attempt {attempt}/{MODEL_ATTEMPTS}): "
+                f"{_describe_api_error(exc)}"
+            )
+            if attempt == MODEL_ATTEMPTS or not _is_transient(exc):
+                raise
+            time.sleep(MODEL_RETRY_WAIT * attempt)
 
 
 def evaluate_model(candidate: Dict, eval_set: List[Dict]) -> Dict:
     label = f"{candidate['provider']}/{candidate['model']}"
-    llm_tools = build_llm_tools(candidate)
+    vision_llm, structured_output_method = build_vision_llm(candidate)
 
-    hard_errors = 0  # provider/parsing exception, not recovered by LLMTools' own retries
+    hard_errors = (
+        0  # provider/parsing exception, not recovered by identify_artwork_raw's own retries
+    )
     empty_titles = 0  # no exception, but the model gave up on identifying anything
     wrong_titles = 0  # identified *something*, but not the actual artwork
     correct = 0
@@ -104,8 +155,8 @@ def evaluate_model(candidate: Dict, eval_set: List[Dict]) -> Dict:
 
     for i, item in enumerate(eval_set, 1):
         try:
-            painting = llm_tools.identify_artwork(
-                image_path=item["image_path"], language=LANGUAGE, n_words=N_WORDS
+            painting = identify_artwork_raw(
+                vision_llm, structured_output_method, item["image_path"]
             )
         except Exception as exc:
             hard_errors += 1

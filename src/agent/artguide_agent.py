@@ -82,19 +82,16 @@ class ArtGuide:
         return state
 
     def deep_search_node(self, state) -> State:
-        candidate = None
-        clip_top1 = state["results"][0] if state.get("results") else None
-        if (
-            clip_top1
-            and self.SUGGESTION_THRESHOLD <= clip_top1.get("score", 0) < self.SCORE_THRESHOLD
-        ):
-            candidate = clip_top1
-
+        candidates = [
+            r
+            for r in state.get("results", [])
+            if self.SUGGESTION_THRESHOLD <= r.get("score", 0) < self.SCORE_THRESHOLD
+        ]
         painting = self.llm_tools.identify_artwork(
             image_path=state["image_path"],
             language=self.language,
             n_words=self.n_words,
-            candidate=candidate,
+            candidates=candidates,
         )
 
         state["results"].insert(0, painting)  # unnecessary but consistent

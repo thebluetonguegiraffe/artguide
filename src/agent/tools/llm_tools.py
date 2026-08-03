@@ -80,7 +80,7 @@ class LLMTools:
         self.structured_output_method = structured_output_method
 
     def identify_artwork(
-        self, image_path: str, language: str, n_words: int, candidate: Optional[Dict] = None
+        self, image_path: str, language: str, n_words: int, candidates: List[Dict] = None
     ) -> Dict:
         """Identifies painting via two independent blind LLM opinions plus CLIP's
         own candidate (when available), arbitrated by a judge call over anonymized
@@ -132,23 +132,37 @@ class LLMTools:
         )
 
         options = [first_result, second_result]
-        if candidate and candidate.get("title"):
-            options.append({"title": candidate["title"], "artist": candidate.get("artist", "")})
-            logger.info(f"Including CLIP candidate in judge pool: title={candidate['title']!r}")
-
-        # Shuffle so option order carries no signal, and label anonymously (Option
-        # A/B/C -- never "CLIP says" / "model X says") so the judge decides on
-        # content, not source authority or recognition of its own earlier answer.
         random.shuffle(options)
         options_block = "\n".join(
             f"Option {letter}: title={opt['title']!r}, artist={opt.get('artist', '')!r}"
             for letter, opt in zip(string.ascii_uppercase, options)
         )
 
+        clip_evidence_block = ""
+        if candidates:
+            for candidate in candidates:
+                if candidate.get("title"):
+                    artist_clause = (
+                        f", artist: {candidate['artist']!r}" if candidate.get("artist") else ""
+                    )
+                    score = candidate.get("score")
+                    score_clause = (
+                        f", visual similarity score: {score:.3f}" if score is not None else ""
+                    )
+                    clip_evidence_block += (
+                        "Additional evidence -- visual similarity search against the indexed "
+                        "artwork database (a vector-similarity match, not a model opinion): "
+                        f"title: {candidate['title']!r}{artist_clause}{score_clause}.\n\n"
+                    )
+            logger.info(
+                f"Including CLIP evidence in judge prompt: title={candidate['title']!r} score={score}"  # noqa
+            )
+
         judge_prompt = self.prompts.ART_IDENTIFICATION_JUDGE_PROMPT.format(
             language=self.LANGUAGE_MAPPER[language],
             n_words=n_words,
             options_block=options_block,
+            clip_evidence_block=clip_evidence_block,
         )
         judge_messages = [
             SystemMessage(content=self.prompts.SYSTEM_GUIDELINES),
