@@ -1,0 +1,401 @@
+{
+  "raw": [
+    {
+      "expected": "Portrait of Tsar Peter I",
+      "top1_title": "Charles I in Three Positions",
+      "score": 0.3161343
+    },
+    {
+      "expected": "The Sharp and Competent",
+      "top1_title": "Calligraphy",
+      "score": 0.35057983
+    },
+    {
+      "expected": "Collage",
+      "top1_title": "The Toy Shop",
+      "score": 0.30008504
+    },
+    {
+      "expected": "Danae",
+      "top1_title": "Odalisque",
+      "score": 0.34469986
+    },
+    {
+      "expected": "Bathers on the Lawn",
+      "top1_title": "Cake-Walk",
+      "score": 0.3337912
+    },
+    {
+      "expected": "Jahangirshahi",
+      "top1_title": "Panel",
+      "score": 0.33838874
+    },
+    {
+      "expected": "Bill Gates",
+      "top1_title": "Phil",
+      "score": 0.32264507
+    },
+    {
+      "expected": "Madonna and Child with the Young Saint John",
+      "top1_title": "Madonna and Child with the Young Saint John",
+      "score": 0.34616607
+    },
+    {
+      "expected": "Boy Restraining a Dog",
+      "top1_title": "Shoeing",
+      "score": 0.34733242
+    },
+    {
+      "expected": "Lion",
+      "top1_title": "Guardian of the Brachina Gorge",
+      "score": 0.31634995
+    },
+    {
+      "expected": "Boats",
+      "top1_title": "Boats at Martigues",
+      "score": 0.34181815
+    },
+    {
+      "expected": "Sitting girl with a cat",
+      "top1_title": "Girl with Cats",
+      "score": 0.33156356
+    },
+    {
+      "expected": "Dalí's Dream-Prophetic Vision",
+      "top1_title": "Achilles and the Body of Patroclus",
+      "score": 0.31402886
+    },
+    {
+      "expected": "Space Station (Falls Said to be the Largest in the Known World So Far)",
+      "top1_title": "Blotter",
+      "score": 0.3190791
+    },
+    {
+      "expected": "Accordionist",
+      "top1_title": "The Mexican Musicians",
+      "score": 0.33326808
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "1952-A",
+      "score": 0.3103084
+    },
+    {
+      "expected": "Untitled, (Blooming, A Scattering of Blossoms & Other Things)",
+      "top1_title": "Roses",
+      "score": 0.34336406
+    },
+    {
+      "expected": "Eden Garden III",
+      "top1_title": "Rain",
+      "score": 0.3305535
+    },
+    {
+      "expected": "Self-Portrait",
+      "top1_title": "Girl Sitting",
+      "score": 0.31646508
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "Untitled (6.24.92)",
+      "score": 0.34867957
+    },
+    {
+      "expected": "The Secret School",
+      "top1_title": "Jewish People Talking in Targu Cucu",
+      "score": 0.34413671
+    },
+    {
+      "expected": "Fox Hunt",
+      "top1_title": "The Panther, Icebound",
+      "score": 0.34137374
+    },
+    {
+      "expected": "Northern Lights",
+      "top1_title": "Hammerfest. The Northern Lights",
+      "score": 0.34646177
+    },
+    {
+      "expected": "Jacob and Joseph's Coat",
+      "top1_title": "La criolla del mantón",
+      "score": 0.34183264
+    },
+    {
+      "expected": "Silence",
+      "top1_title": "Moonlit Landscape",
+      "score": 0.3400829
+    },
+    {
+      "expected": "Mines",
+      "top1_title": "Composition with a Blue Square",
+      "score": 0.2924319
+    },
+    {
+      "expected": "Le pape et l'inquisiteur",
+      "top1_title": "Josephine and the Fortune Teller",
+      "score": 0.3449267
+    },
+    {
+      "expected": "The Cuckolds",
+      "top1_title": "El Guitarrista",
+      "score": 0.31633487
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "Dada",
+      "score": 0.34176683
+    },
+    {
+      "expected": "Descent from the Cross (The Deposition)",
+      "top1_title": "Deposition from the Cross",
+      "score": 0.35437888
+    },
+    {
+      "expected": "Nude with Apple",
+      "top1_title": "Nude with Apple",
+      "score": 0.37966597
+    },
+    {
+      "expected": "Kumlu-Kılçıklı Ebru",
+      "top1_title": "Black Painting VIII: Ultramarine Blue, Burnt Umber",
+      "score": 0.312932
+    },
+    {
+      "expected": "Untitled (farbfeld)",
+      "top1_title": "Blue with Orange",
+      "score": 0.3596786
+    },
+    {
+      "expected": "Towards White",
+      "top1_title": "Theatrical Composition",
+      "score": 0.302788
+    },
+    {
+      "expected": "Wild geese at Miho, Kiyomi Temple, Suruga, Yoshiwara",
+      "top1_title": "Evening Snow on Fuji from a set of Eight Famous Views published by Iseya Rihei",
+      "score": 0.3408442
+    },
+    {
+      "expected": "Corona I",
+      "top1_title": "Sonne",
+      "score": 0.34610957
+    },
+    {
+      "expected": "SICILIAN",
+      "top1_title": "Celestial Lotus",
+      "score": 0.33591396
+    },
+    {
+      "expected": "Light",
+      "top1_title": "After Joséphin Péladan, The Supreme Vice",
+      "score": 0.33342043
+    },
+    {
+      "expected": "Trial",
+      "top1_title": "Bhopal",
+      "score": 0.3094268
+    },
+    {
+      "expected": "Studio",
+      "top1_title": "Untitled (Portrait of an Umbrella Series)",
+      "score": 0.32443807
+    },
+    {
+      "expected": "Machinery",
+      "top1_title": "Magical Forms",
+      "score": 0.3340774
+    },
+    {
+      "expected": "The Angel of the Crown of Thorns",
+      "top1_title": "Virgin and Child with Four Angels",
+      "score": 0.30930355
+    },
+    {
+      "expected": "It's All Over - The City",
+      "top1_title": "April 2000 - nr. 3. - abstract painting on canvas",
+      "score": 0.3244114
+    },
+    {
+      "expected": "The Artist's Birthplace",
+      "top1_title": "The Hut",
+      "score": 0.3489343
+    },
+    {
+      "expected": "Clous fluorescents N° 23",
+      "top1_title": "Composition (Red Forms)",
+      "score": 0.3304351
+    },
+    {
+      "expected": "A Fishing Boat in Dieppe Harbour",
+      "top1_title": "A Fishing Boat in Dieppe Harbour",
+      "score": 0.34046733
+    },
+    {
+      "expected": "Yellow Painting",
+      "top1_title": "Blind No. 20, Seventeen-foot high Ceiling or Lower, Historical Van Dyke Brown, Historical Veridian Green, Indian Yellow Hue, Hansa Yellow Medium (to Mike Kelley)",
+      "score": 0.32392251
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "Tilleul",
+      "score": 0.33221662
+    },
+    {
+      "expected": "Plate 11. Bird of Washington",
+      "top1_title": "Plate 11. Bird of Washington",
+      "score": 0.35502416
+    },
+    {
+      "expected": "Untitled",
+      "top1_title": "Your Rainbow Panorama",
+      "score": 0.33168983
+    },
+    {
+      "expected": "The Age of Bronze",
+      "top1_title": "Perseus and Andromeda",
+      "score": 0.3330992
+    },
+    {
+      "expected": "The Mulatto and the Sculpturesque White Woman",
+      "top1_title": "Self-Portrait With Black Mouth,",
+      "score": 0.35530996
+    },
+    {
+      "expected": "Window to the Garden",
+      "top1_title": "Cubo Ashtray design",
+      "score": 0.31738245
+    },
+    {
+      "expected": "Battle of the Centaurs",
+      "top1_title": "Battle of the Centaurs",
+      "score": 0.34191942
+    },
+    {
+      "expected": "Fish Basket",
+      "top1_title": "Straw Basket for Fish and Mokuge Flower",
+      "score": 0.30700624
+    },
+    {
+      "expected": "Espaço Ilusório",
+      "top1_title": "Large Checkerboard",
+      "score": 0.30259946
+    },
+    {
+      "expected": "Abstract Composition 5",
+      "top1_title": "Tilleul",
+      "score": 0.34199584
+    },
+    {
+      "expected": "Martyrdom of Saint Sebastian",
+      "top1_title": "Martyrdom of St. Sebastian",
+      "score": 0.3429506
+    },
+    {
+      "expected": "Pink Square",
+      "top1_title": "Parva XXXVIII",
+      "score": 0.3322822
+    }
+  ],
+  "thresholds": [
+    {
+      "threshold": 0.15,
+      "accepted": 59,
+      "tp": 5,
+      "fp": 54,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.085,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.18,
+      "accepted": 59,
+      "tp": 5,
+      "fp": 54,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.085,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.2,
+      "accepted": 59,
+      "tp": 5,
+      "fp": 54,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.085,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.22,
+      "accepted": 59,
+      "tp": 5,
+      "fp": 54,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.085,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.25,
+      "accepted": 59,
+      "tp": 5,
+      "fp": 54,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.085,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.28,
+      "accepted": 59,
+      "tp": 5,
+      "fp": 54,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.085,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.3,
+      "accepted": 58,
+      "tp": 5,
+      "fp": 53,
+      "fn": 0,
+      "tn": 1,
+      "precision": 0.086,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.32,
+      "accepted": 43,
+      "tp": 5,
+      "fp": 38,
+      "fn": 0,
+      "tn": 16,
+      "precision": 0.116,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.35,
+      "accepted": 6,
+      "tp": 2,
+      "fp": 4,
+      "fn": 3,
+      "tn": 50,
+      "precision": 0.333,
+      "recall": 0.4
+    },
+    {
+      "threshold": 0.4,
+      "accepted": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 5,
+      "tn": 54,
+      "precision": null,
+      "recall": 0.0
+    }
+  ]
+}

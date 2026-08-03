@@ -1,0 +1,401 @@
+{
+  "raw": [
+    {
+      "expected": "Mona Lisa",
+      "top1_title": "Mona Lisa",
+      "score": 0.33440185
+    },
+    {
+      "expected": "The Last Supper",
+      "top1_title": "The Last Supper",
+      "score": 0.27666667
+    },
+    {
+      "expected": "The Birth of Venus",
+      "top1_title": "The Birth of Venus",
+      "score": 0.3745131
+    },
+    {
+      "expected": "Primavera",
+      "top1_title": "Primavera",
+      "score": 0.25010777
+    },
+    {
+      "expected": "The School of Athens",
+      "top1_title": "The School of Athens",
+      "score": 0.34871793
+    },
+    {
+      "expected": "The Last Judgment",
+      "top1_title": "The Last Judgment",
+      "score": 0.33901748
+    },
+    {
+      "expected": "Hunters in the Snow",
+      "top1_title": "Hunters in the Snow",
+      "score": 0.35621247
+    },
+    {
+      "expected": "Netherlandish Proverbs",
+      "top1_title": "Netherlandish Proverbs",
+      "score": 0.3477218
+    },
+    {
+      "expected": "The Triumph of Death",
+      "top1_title": "The Triumph of Death",
+      "score": 0.31801128
+    },
+    {
+      "expected": "Massacre of the Innocents",
+      "top1_title": "Massacre of the Innocents",
+      "score": 0.32932532
+    },
+    {
+      "expected": "The Ambassadors",
+      "top1_title": "The Ambassadors",
+      "score": 0.3480752
+    },
+    {
+      "expected": "Bacchus and Ariadne",
+      "top1_title": "Bacchus and Ariadne",
+      "score": 0.30915397
+    },
+    {
+      "expected": "Venus of Urbino",
+      "top1_title": "Venus of Urbino",
+      "score": 0.37454867
+    },
+    {
+      "expected": "The Girl with a Pearl Earring",
+      "top1_title": "The Girl with a Pearl Earring",
+      "score": 0.35183486
+    },
+    {
+      "expected": "The Milkmaid",
+      "top1_title": "The Milkmaid",
+      "score": 0.31987953
+    },
+    {
+      "expected": "The Raft of the Medusa",
+      "top1_title": "The Raft of the Medusa",
+      "score": 0.33187145
+    },
+    {
+      "expected": "Las Meninas",
+      "top1_title": "Las Meninas",
+      "score": 0.35376215
+    },
+    {
+      "expected": "Charles IV of Spain and his family",
+      "top1_title": "Charles IV of Spain and his family",
+      "score": 0.37262812
+    },
+    {
+      "expected": "The Wanderer Above the Sea of Fog",
+      "top1_title": "The Wanderer Above the Sea of Fog",
+      "score": 0.37034136
+    },
+    {
+      "expected": "Liberty Leading the People",
+      "top1_title": "Liberty Leading the People",
+      "score": 0.32964745
+    },
+    {
+      "expected": "The Third of May 1808 (Execution of the Defenders of Madrid)",
+      "top1_title": "The Third of May 1808 (Execution of the Defenders of Madrid)",
+      "score": 0.3321759
+    },
+    {
+      "expected": "The Fighting Temeraire tugged to her last berth to be broken up",
+      "top1_title": "The Fighting Temeraire tugged to her last berth to be broken up",
+      "score": 0.3513484
+    },
+    {
+      "expected": "Ophelia",
+      "top1_title": "Ophelia",
+      "score": 0.36474657
+    },
+    {
+      "expected": "The Lady of Shalott",
+      "top1_title": "The Lady of Shalott",
+      "score": 0.35126343
+    },
+    {
+      "expected": "The Death of Marat",
+      "top1_title": "The Death of Marat",
+      "score": 0.390733
+    },
+    {
+      "expected": "Napoleon crossing the Alps",
+      "top1_title": "Napoleon crossing the Alps",
+      "score": 0.34362993
+    },
+    {
+      "expected": "Impression, sunrise",
+      "top1_title": "Impression, sunrise",
+      "score": 0.34931624
+    },
+    {
+      "expected": "The Card Players",
+      "top1_title": "The Card Players",
+      "score": 0.3198449
+    },
+    {
+      "expected": "Olympia",
+      "top1_title": "Olympia",
+      "score": 0.37691835
+    },
+    {
+      "expected": "The Luncheon of the Boating Party",
+      "top1_title": "The Luncheon of the Boating Party",
+      "score": 0.3653679
+    },
+    {
+      "expected": "Water Lilies",
+      "top1_title": "Water Lilies",
+      "score": 0.31520647
+    },
+    {
+      "expected": "Boulevard Montmartre Spring Rain",
+      "top1_title": "Boulevard Montmartre Spring Rain",
+      "score": 0.37082165
+    },
+    {
+      "expected": "The Absinthe Drinker",
+      "top1_title": "The Absinthe Drinker",
+      "score": 0.35184875
+    },
+    {
+      "expected": "La Goulue Arriving at the Moulin Rouge with Two Women",
+      "top1_title": "La Goulue Arriving at the Moulin Rouge with Two Women",
+      "score": 0.3794014
+    },
+    {
+      "expected": "The Balcony",
+      "top1_title": "The Balcony",
+      "score": 0.368967
+    },
+    {
+      "expected": "Music in the Tuileries Garden",
+      "top1_title": "Music in the Tuileries Garden",
+      "score": 0.34289798
+    },
+    {
+      "expected": "The Starry Night",
+      "top1_title": "The Starry Night",
+      "score": 0.33437985
+    },
+    {
+      "expected": "Sunflowers",
+      "top1_title": "Sunflowers",
+      "score": 0.3585503
+    },
+    {
+      "expected": "The Bedroom",
+      "top1_title": "The Bedroom",
+      "score": 0.3535887
+    },
+    {
+      "expected": "Wheatfield with Crows",
+      "top1_title": "Wheatfield with Crows",
+      "score": 0.35502553
+    },
+    {
+      "expected": "Irises",
+      "top1_title": "Irises",
+      "score": 0.3612942
+    },
+    {
+      "expected": "The Potato Eaters",
+      "top1_title": "The Potato Eaters",
+      "score": 0.34773993
+    },
+    {
+      "expected": "The Scream",
+      "top1_title": "The Scream",
+      "score": 0.34669134
+    },
+    {
+      "expected": "The Kiss",
+      "top1_title": "Primavera",
+      "score": 0.28440863
+    },
+    {
+      "expected": "Les Demoiselles d'Avignon vues de derrière",
+      "top1_title": "Les Demoiselles d'Avignon vues de derrière",
+      "score": 0.32798994
+    },
+    {
+      "expected": "Counter composition VII",
+      "top1_title": "Counter composition VII",
+      "score": 0.34880388
+    },
+    {
+      "expected": "Composition VI",
+      "top1_title": "Composition VI",
+      "score": 0.31822544
+    },
+    {
+      "expected": "Yellow-Red-Blue",
+      "top1_title": "Yellow-Red-Blue",
+      "score": 0.34096712
+    },
+    {
+      "expected": "On White II",
+      "top1_title": "On White II",
+      "score": 0.3517518
+    },
+    {
+      "expected": "Black Square",
+      "top1_title": "Black Square",
+      "score": 0.35285005
+    },
+    {
+      "expected": "Broadway Boogie Woogie",
+      "top1_title": "Broadway Boogie Woogie",
+      "score": 0.3409918
+    },
+    {
+      "expected": "Woman with a Hat",
+      "top1_title": "Woman with a Hat",
+      "score": 0.33998471
+    },
+    {
+      "expected": "The Dance",
+      "top1_title": "The Dance",
+      "score": 0.31940988
+    },
+    {
+      "expected": "The Joy of Life",
+      "top1_title": "The Joy of Life",
+      "score": 0.31181067
+    },
+    {
+      "expected": "The Great Masturbator",
+      "top1_title": "The Great Masturbator",
+      "score": 0.24989572
+    },
+    {
+      "expected": "The Two Fridas",
+      "top1_title": "The Two Fridas",
+      "score": 0.34188727
+    },
+    {
+      "expected": "American Gothic",
+      "top1_title": "American Gothic",
+      "score": 0.39485812
+    },
+    {
+      "expected": "Nighthawks",
+      "top1_title": "Nighthawks",
+      "score": 0.36265567
+    },
+    {
+      "expected": "The Great Wave off Kanagawa",
+      "top1_title": "The Great Wave off Kanagawa",
+      "score": 0.32338768
+    }
+  ],
+  "thresholds": [
+    {
+      "threshold": 0.15,
+      "accepted": 59,
+      "tp": 58,
+      "fp": 1,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.983,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.18,
+      "accepted": 59,
+      "tp": 58,
+      "fp": 1,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.983,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.2,
+      "accepted": 59,
+      "tp": 58,
+      "fp": 1,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.983,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.22,
+      "accepted": 59,
+      "tp": 58,
+      "fp": 1,
+      "fn": 0,
+      "tn": 0,
+      "precision": 0.983,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.25,
+      "accepted": 58,
+      "tp": 57,
+      "fp": 1,
+      "fn": 1,
+      "tn": 0,
+      "precision": 0.983,
+      "recall": 0.983
+    },
+    {
+      "threshold": 0.28,
+      "accepted": 56,
+      "tp": 55,
+      "fp": 1,
+      "fn": 3,
+      "tn": 0,
+      "precision": 0.982,
+      "recall": 0.948
+    },
+    {
+      "threshold": 0.3,
+      "accepted": 55,
+      "tp": 55,
+      "fp": 0,
+      "fn": 3,
+      "tn": 1,
+      "precision": 1.0,
+      "recall": 0.948
+    },
+    {
+      "threshold": 0.32,
+      "accepted": 47,
+      "tp": 47,
+      "fp": 0,
+      "fn": 11,
+      "tn": 1,
+      "precision": 1.0,
+      "recall": 0.81
+    },
+    {
+      "threshold": 0.35,
+      "accepted": 25,
+      "tp": 25,
+      "fp": 0,
+      "fn": 33,
+      "tn": 1,
+      "precision": 1.0,
+      "recall": 0.431
+    },
+    {
+      "threshold": 0.4,
+      "accepted": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 58,
+      "tn": 1,
+      "precision": null,
+      "recall": 0.0
+    }
+  ]
+}

@@ -1,0 +1,515 @@
+[
+  {
+    "model": "mistralai/ministral-8b-2512",
+    "total": 20,
+    "hard_errors": 0,
+    "empty_titles": 1,
+    "wrong_titles": 11,
+    "correct": 8,
+    "error_rate_pct": 60.0,
+    "details": [
+      {
+        "index": 1,
+        "expected_title": "Irises",
+        "returned_title": "Irises",
+        "returned_artist": "Vincent van Gogh",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 2,
+        "expected_title": "Netherlandish Proverbs",
+        "returned_title": "The Triumph of Death",
+        "returned_artist": "Pieter Bruegel the Elder",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 3,
+        "expected_title": "The Last Supper",
+        "returned_title": "The Last Supper (Attributed to Jacopo Bassano)",
+        "returned_artist": "Jacopo Bassano or his workshop",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 4,
+        "expected_title": "Yellow-Red-Blue",
+        "returned_title": "Composition with Yellow, Red, Blue, Black, and White",
+        "returned_artist": "Wassily Kandinsky",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 5,
+        "expected_title": "Charles IV of Spain and his family",
+        "returned_title": "The Family of Charles IV",
+        "returned_artist": "Francisco Goya",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 6,
+        "expected_title": "The Raft of the Medusa",
+        "returned_title": "The Raft of the Medusa",
+        "returned_artist": "Théodore Géricault",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 7,
+        "expected_title": "The Milkmaid",
+        "returned_title": "The Blue Boy",
+        "returned_artist": "Thomas Gainsborough",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 8,
+        "expected_title": "The Triumph of Death",
+        "returned_title": "The Fall of the Rebel Angels",
+        "returned_artist": "Pieter Bruegel the Elder",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 9,
+        "expected_title": "The Two Fridas",
+        "returned_title": "The Two Fridas",
+        "returned_artist": "Frida Kahlo",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 10,
+        "expected_title": "Hunters in the Snow",
+        "returned_title": "Hunters in the Snow (The Return of the Huntsmen)",
+        "returned_artist": "Pieter Bruegel the Elder",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 11,
+        "expected_title": "The Kiss",
+        "returned_title": null,
+        "returned_artist": null,
+        "outcome": "empty",
+        "error": null
+      },
+      {
+        "index": 12,
+        "expected_title": "Broadway Boogie Woogie",
+        "returned_title": "Composition with Red, Blue, and Yellow",
+        "returned_artist": "Piet Mondrian",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 13,
+        "expected_title": "The Balcony",
+        "returned_title": "A Bar at the Folies-Bergère",
+        "returned_artist": "Édouard Manet",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 14,
+        "expected_title": "The Last Judgment",
+        "returned_title": "The Last Judgment",
+        "returned_artist": "Rubens, Peter Paul (with contributions from assistants)",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 15,
+        "expected_title": "Sunflowers",
+        "returned_title": "Sunflowers",
+        "returned_artist": "Vincent van Gogh",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 16,
+        "expected_title": "The Card Players",
+        "returned_title": "The Two Generals",
+        "returned_artist": "Adolph Menzel",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 17,
+        "expected_title": "The Birth of Venus",
+        "returned_title": "The Birth of Venus",
+        "returned_artist": "Sandro Botticelli",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 18,
+        "expected_title": "American Gothic",
+        "returned_title": "American Gothic",
+        "returned_artist": "Grant Wood",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 19,
+        "expected_title": "Counter composition VII",
+        "returned_title": "Composition with Red, Blue, and Yellow",
+        "returned_artist": "Piet Mondrian",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 20,
+        "expected_title": "The Girl with a Pearl Earring",
+        "returned_title": "Girl with a Pearl Earring",
+        "returned_artist": "Johannes Vermeer",
+        "outcome": "correct",
+        "error": null
+      }
+    ]
+  },
+  {
+    "model": "mistralai/mistral-small-2603",
+    "total": 20,
+    "hard_errors": 0,
+    "empty_titles": 1,
+    "wrong_titles": 7,
+    "correct": 12,
+    "error_rate_pct": 40.0,
+    "details": [
+      {
+        "index": 1,
+        "expected_title": "Irises",
+        "returned_title": "Irises",
+        "returned_artist": "Vincent van Gogh",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 2,
+        "expected_title": "Netherlandish Proverbs",
+        "returned_title": "The Peasant Wedding",
+        "returned_artist": "Pieter Bruegel the Elder",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 3,
+        "expected_title": "The Last Supper",
+        "returned_title": "The Last Supper",
+        "returned_artist": "Leonardo da Vinci",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 4,
+        "expected_title": "Yellow-Red-Blue",
+        "returned_title": "The City Rises",
+        "returned_artist": "Umberto Boccioni",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 5,
+        "expected_title": "Charles IV of Spain and his family",
+        "returned_title": "The Family of King Charles IV",
+        "returned_artist": "Francisco de Goya",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 6,
+        "expected_title": "The Raft of the Medusa",
+        "returned_title": "The Raft of the Medusa",
+        "returned_artist": "Théodore Géricault",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 7,
+        "expected_title": "The Milkmaid",
+        "returned_title": "Portrait of a Young Woman (La Muta)",
+        "returned_artist": "Raphael (Raffaello Sanzio da Urbino)",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 8,
+        "expected_title": "The Triumph of Death",
+        "returned_title": "The Battle of Montaperti",
+        "returned_artist": "Giuseppe Bezzuoli",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 9,
+        "expected_title": "The Two Fridas",
+        "returned_title": "The Two Fridas",
+        "returned_artist": "Frida Kahlo",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 10,
+        "expected_title": "Hunters in the Snow",
+        "returned_title": "Hunters in the Snow",
+        "returned_artist": "Pieter Bruegel the Elder",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 11,
+        "expected_title": "The Kiss",
+        "returned_title": "The Great Wave off Kanagawa",
+        "returned_artist": "Katsushika Hokusai",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 12,
+        "expected_title": "Broadway Boogie Woogie",
+        "returned_title": "Broadway Boogie Woogie",
+        "returned_artist": "Piet Mondrian",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 13,
+        "expected_title": "The Balcony",
+        "returned_title": "Mr and Mrs Clark and Percy",
+        "returned_artist": "David Hockney",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 14,
+        "expected_title": "The Last Judgment",
+        "returned_title": "The Last Judgment",
+        "returned_artist": "Michelangelo Buonarroti",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 15,
+        "expected_title": "Sunflowers",
+        "returned_title": "Sunflowers",
+        "returned_artist": "Vincent van Gogh",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 16,
+        "expected_title": "The Card Players",
+        "returned_title": "The Card Players",
+        "returned_artist": "Paul Cézanne",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 17,
+        "expected_title": "The Birth of Venus",
+        "returned_title": "The Birth of Venus",
+        "returned_artist": "Sandro Botticelli",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 18,
+        "expected_title": "American Gothic",
+        "returned_title": "American Gothic",
+        "returned_artist": "Grant Wood",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 19,
+        "expected_title": "Counter composition VII",
+        "returned_title": null,
+        "returned_artist": null,
+        "outcome": "empty",
+        "error": null
+      },
+      {
+        "index": 20,
+        "expected_title": "The Girl with a Pearl Earring",
+        "returned_title": "Girl with a Pearl Earring",
+        "returned_artist": "Johannes Vermeer",
+        "outcome": "correct",
+        "error": null
+      }
+    ]
+  },
+  {
+    "model": "groq/qwen/qwen3.6-27b",
+    "total": 20,
+    "hard_errors": 0,
+    "empty_titles": 0,
+    "wrong_titles": 10,
+    "correct": 10,
+    "error_rate_pct": 50.0,
+    "details": [
+      {
+        "index": 1,
+        "expected_title": "Irises",
+        "returned_title": "Irises",
+        "returned_artist": "Vincent van Gogh",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 2,
+        "expected_title": "Netherlandish Proverbs",
+        "returned_title": "Netherlandish Proverbs",
+        "returned_artist": "Pieter Bruegel the Elder",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 3,
+        "expected_title": "The Last Supper",
+        "returned_title": "The Last Supper to the Adoration of the Magi",
+        "returned_artist": "Benozzo Gozzoli",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 4,
+        "expected_title": "Yellow-Red-Blue",
+        "returned_title": "Flight to Tabor",
+        "returned_artist": "Wassily Kandinsky",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 5,
+        "expected_title": "Charles IV of Spain and his family",
+        "returned_title": "The Family of Charles IV of Spain",
+        "returned_artist": "Francisco Goya",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 6,
+        "expected_title": "The Raft of the Medusa",
+        "returned_title": "The Raft of the Medusa",
+        "returned_artist": "Théodore Géricault",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 7,
+        "expected_title": "The Milkmaid",
+        "returned_title": "Lady Macdonald with a Puny White Mare",
+        "returned_artist": "George Stubbs",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 8,
+        "expected_title": "The Triumph of Death",
+        "returned_title": "The Garden of Earthly Delights",
+        "returned_artist": "Hieronymus Bosch",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 9,
+        "expected_title": "The Two Fridas",
+        "returned_title": "The Two Fridas",
+        "returned_artist": "Frida Kahlo",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 10,
+        "expected_title": "Hunters in the Snow",
+        "returned_title": "Winter Landscape with Huntsman",
+        "returned_artist": "Pieter Bruegel the Elder",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 11,
+        "expected_title": "The Kiss",
+        "returned_title": "Lovers",
+        "returned_artist": "Edgar Degas",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 12,
+        "expected_title": "Broadway Boogie Woogie",
+        "returned_title": "Broadway Boogie Woogie",
+        "returned_artist": "Piet Mondrian",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 13,
+        "expected_title": "The Balcony",
+        "returned_title": "A Balcony",
+        "returned_artist": "Pierre-Auguste Renoir",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 14,
+        "expected_title": "The Last Judgment",
+        "returned_title": "Assumption of the Virgin",
+        "returned_artist": "Tintoretto",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 15,
+        "expected_title": "Sunflowers",
+        "returned_title": "Sunflowers",
+        "returned_artist": "Vincent van Gogh",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 16,
+        "expected_title": "The Card Players",
+        "returned_title": "The Two Engravers",
+        "returned_artist": "Jean-Baptiste Siméon Chardin",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 17,
+        "expected_title": "The Birth of Venus",
+        "returned_title": "The Birth of Venus",
+        "returned_artist": "Sandro Botticelli",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 18,
+        "expected_title": "American Gothic",
+        "returned_title": "American Gothic",
+        "returned_artist": "Grant Wood",
+        "outcome": "correct",
+        "error": null
+      },
+      {
+        "index": 19,
+        "expected_title": "Counter composition VII",
+        "returned_title": "Composition with Red, Blue, and Yellow",
+        "returned_artist": "Piet Mondrian",
+        "outcome": "wrong",
+        "error": null
+      },
+      {
+        "index": 20,
+        "expected_title": "The Girl with a Pearl Earring",
+        "returned_title": "Girl with a Pearl Earring",
+        "returned_artist": "Johannes Vermeer",
+        "outcome": "correct",
+        "error": null
+      }
+    ]
+  }
+]
