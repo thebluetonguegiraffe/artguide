@@ -2,16 +2,16 @@
 [ArtGuide](https://artguide.thebluetonguegiraffe.online) is a multimodal AI pipeline that identifies artworks from photos and delivers spoken audio descriptions in real time. Point your camera at a painting, and ArtGuide will recognize it, generate contextual narration, and play it back as high-quality speech — in English, Spanish, or Catalan.
 
 ## 💻 Technical Overview
-Built in **Python**, the system centers on a **LangGraph** agent orchestrating a **Qdrant** vector database populated via a custom **multiprocessing ETL** pipeline. This architecture handles the full pipeline end-to-end: retrieving artwork matches through **CLIP embeddings**, routing decisions based on confidence thresholds, generating enriched descriptions via **GPT-4o**, and synthesizing the final narration through a self-hosted **Piper TTS model**.
+Built in **Python**, the system centers on a **LangGraph** agent orchestrating a **Qdrant** vector database populated via a custom **multithreaded ETL** pipeline. This architecture handles the full pipeline end-to-end: retrieving artwork matches through **CLIP embeddings**, routing decisions based on confidence thresholds, generating enriched descriptions via **Mistral models**, and synthesizing the final narration through a self-hosted **Piper TTS model**.
 
-The system integrates three distinct AI models to power its features:
+The system integrates distinct AI models to power its features:
 * **CLIP** for image and text understanding.
 * **Piper** for high-quality **Text-to-Speech (TTS)** generation.
-* **GPT-4** for sophisticated natural language processing and ArtGuide Agent orchestration.
+* **Mistral models** (`mistral-small` for description generation and judging, `ministral-8b` as vision model for deep search) for sophisticated natural language processing and ArtGuide Agent orchestration.
 
 Crucially, the **CLIP** and **Piper TTS** models are **self-hosted** on custom infrastructure and distributed through the project's **API**, ensuring low-latency multimedia services.
 
-The entire user interface is built using the **Streamlit** framework for rapid development and is hosted for public access.
+The entire user interface is built using the **Reflex** framework (Python compiled to React) and is hosted for public access.
 
 <p align="center">
 <img src="img/README/ui.png" width="500">
@@ -37,7 +37,7 @@ Once the CLIP model converts an artwork image into its high-dimensional vector r
 
 ### 💾 Data Ingestion and ETL
 ---
-The process of populating the Qdrant vector database with high-dimensional embeddings is handled by a dedicated, high-performance **Multiprocessing ETL (Extract, Transform, Load)** pipeline.
+The process of populating the Qdrant vector database with high-dimensional embeddings is handled by a dedicated, high-performance **Multithreaded ETL (Extract, Transform, Load)** pipeline.
 
 The ETL process is managed by concurrent threads and queues to maximize efficiency:
 * **Extract:** Queries the **[WikiArt API](https://www.wikiart.org/)** in batches and streams raw data directly to the processing queue, enabling memory-efficient, incremental loading.
@@ -87,20 +87,20 @@ For more details on the system's open-source development and voice quality, you 
 
 ### 🧭 ArtGuide Agent: System Orchestrator
 ---
-The core of the system is the **`ArtGuide`** class, which implements a **StateGraph** from **LangGraph**. The agent coordinates three categories of tools and the **GPT-4o** model, which serves as its "brain" for reasoning and content generation.
+The core of the system is the **`ArtGuide`** class, which implements a **StateGraph** from **LangGraph**. The agent coordinates three categories of tools and a per-role **Mistral model layer** (`mistral-small` as judge and description model, `ministral-8b` as vision model), which serves as its "brain" for reasoning and content generation.
 
 | **Tool Category** | **Class**   | **Function**                                                                                                                                        |
 |-------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | **API Tools**     | `APITools`  | Interfaces with the project's custom API for low-latency services: **image search (CLIP/Qdrant)** and **speech synthesis (Piper TTS)**.           |
-| **LLM Tools**     | `LLMTools`  | Groups specific calls to GPT-4o for generating enriched and contextual content.                                                                     |
+| **LLM Tools**     | `LLMTools`  | Groups specific calls to the Mistral models (vision, description, judge) for generating enriched and contextual content.                                                                     |
 | **Base Tools**    | `BaseTools` | Internal utilities for deterministic tasks such as selecting the top result, checking the confidence threshold, and performing translations.        |
 
 The system flow is structured according to the following diagram. The agent employs a two-tiered search strategy to balance efficiency and coverage:
 * **Deterministic Confidence Check (Initial Search):** The system first uses a low-latency CLIP/Qdrant vector search to find artwork in its existing database.
-* **Extended Deep Search:** If the initial search fails to yield a high-confidence result, the system deterministically routes the query to a deep search using GPT-4o. This addresses cases where the painting is not present in the vector database or the image is complex.
+* **Extended Deep Search:** If the initial search fails to yield a high-confidence result, the system deterministically routes the query to a deep search using a vision LLM. This addresses cases where the painting is not present in the vector database or the image is complex.
 * **Final Classification:** If neither the initial vector search nor the extended deep search returns a satisfactory result, the system concludes that the submitted image is not a painting.
 
-While a deep search using a powerful model like GPT-4o could theoretically be performed directly, the **ArtGuide Agent** prioritizes system economics and efficiency. The **CLIP** model is employed for the initial query because performing **local computation** (vector search) is significantly **more cost-effective** than relying on a third-party API for every query. The expensive **GPT-4o deep search** is reserved only for edge cases or complex queries where the fast, inexpensive vector search has failed, thereby **optimizing operational costs** while maintaining high accuracy.
+While a deep search using a powerful vision model could theoretically be performed directly, the **ArtGuide Agent** prioritizes system economics and efficiency. The **CLIP** model is employed for the initial query because performing **local computation** (vector search) is significantly **more cost-effective** than relying on a third-party API for every query. The expensive **vision-LLM deep search** is reserved only for edge cases or complex queries where the fast, inexpensive vector search has failed, thereby **optimizing operational costs** while maintaining high accuracy.
 
 ```mermaid
 ---
@@ -111,8 +111,8 @@ flowchart LR
     A["Start"] --> B("search_image_node: CLIP/Qdrant Search")
     B --> C{"route_deep_research: Score > 0.35?"}
     C -- Yes (High Score) --> D("top_painting_selector: Select & Translate")
-    C -- No (Low Score) --> E("deep_search_image: GPT-4o Deep Research")
-    D --> F("generate_description_node: GPT-4o Enrichment")
+    C -- No (Low Score) --> E("deep_search_image: Vision-LLM Deep Research")
+    D --> F("generate_description_node: LLM Enrichment")
     F --> H("generate_speech_node: Piper TTS Synthesis")
     E --> G{"route_non_painting: No Title?"}
     G -- Yes --> H
